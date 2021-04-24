@@ -1,0 +1,269 @@
+@startuml ApplicationDiagram
+'https://plantuml.com/class-diagram
+
+package domain {
+    package domain.model {
+        class Resource {
+            +url: String
+            +tags: List<String>
+            +dateSaved: DateTime
+        }
+
+        class Directory {
+            +parent: Directory
+        }
+
+        class ArchivedResource extends Resource {
+            +dateArchived: DateTime
+            +directory: Directory
+        }
+
+        class TrashedResource extends Resource {
+            +dateTrashed: DateTime
+        }
+
+        class Selector {
+            TaggedWith,
+            OlderThan,
+            NewerThan,
+            FromSite
+        }
+
+        class QueueDefinition {
+            +filters: Set<Selector>
+            +ordering: LinkedHashSet<Selector>
+            +filteredSites: Set<String>
+        }
+
+        class Queue {
+            +definition: QueueDefinition
+            +currentResource: Resource
+            +resourceProgressPercent: Float
+            +nextResources: List<Resource>
+            +pinnedResources: <Resource>
+        }
+
+        Queue -left-> QueueDefinition
+        Queue --> Resource
+        QueueDefinition --> Selector
+        Directory --> Directory
+        ArchivedResource --> Directory
+    }
+
+    package domain.repository {
+        class ResourceRepository
+
+        ResourceRepository --> Resource
+    }
+
+    package domain.service {
+        class StashService {
+            +saveResource(url: String)
+            +listResources(): List<Resource>
+        }
+
+        class FeedService {
+            +defineFeed(url: String, name: String?)
+            +fetchResources(feed: Feed)
+        }
+
+        class QueueService {
+            +createQueue(queueDefinition: QueueDefinitionBuilder)
+            +updateQueue(queueDefinition: QueueDefinitionBuilder)
+            +findQueue(queueId: Long): Queue
+            +pinResource(queue: Queue, resource: Resource)
+        }
+
+        class ArchiveService {
+            +archiveResource(resource: Resource)
+            +unarchiveResource(resource: Resource)
+            +listArchivedResources(): List<Resource>
+        }
+
+        class TrashService {
+            +trashResource(resource: Resource)
+            +listTrashedResources(): List<TrashedResource>
+            +untrashResource(resource: Resource)
+            +removeResource(resource: TrashedResource)
+            +emptyTrash()
+        }
+
+        QueueService -right-> Queue
+        QueueService --> QueueDefinition
+        QueueService --> Resource
+        StashService --> Resource
+        ArchiveService --> Resource
+        TrashService --> Resource
+    }
+}
+
+package usecase {
+    package usecase.entity {
+        class ResourceMetadata {
+            +title: String
+            +description: String
+            +site: String
+            +author: String?
+            +thumbnailUrl: String?
+            +estimatedConsumptionSeconds: Long?
+        }
+
+        class ParsedResource {
+            +metadata: ResourceMetadata
+        }
+
+        class HtmlResource extends ParsedResource {
+            +htmlContent: String
+        }
+
+        class YouTubeResource extends ParsedResource {
+            +videoId: String
+        }
+
+        ParsedResource --> ResourceMetadata
+    }
+
+    package usecase.service {
+        interface MetadataCache {
+            +contains(url: String): Boolean
+            +get(url: String): ParsedResource
+            +put(parsedResource: ParsedResource)
+        }
+        package usecase.service.parser {
+            class ParserService {
+                +parse(url: String): ParsedResource
+            }
+
+            interface ParserLookup {
+                +forSite(url: String): ResourceParser
+                +forExtension(extension: String): ResourceParser
+                +forContentType(contentType: ContentType): ResourceParser
+            }
+
+            interface ResourceParser {
+                +parse(url: String): ParsedResource
+            }
+
+            interface ParserCache {
+                +contains(url: String): Boolean
+                +get(url: String): ParsedResource
+                +put(parsedResource: ParsedResource)
+            }
+
+            enum ContentType {
+                ARTICLE
+            }
+
+            ParserLookup --> ContentType
+            ParserLookup --> ResourceParser
+            ParserService --> ParsedResource
+            ParserService --> ParserLookup
+            ParserService --> ContentType
+            ParserService --> ParserCache
+            ParserService -up-> ResourceParser
+        }
+    }
+    class PreviewResource {
+        +currentResource: Flow<ParsedResource>
+        +execute()
+    }
+
+    class SaveResource {
+        +execute(url: String): DeferredJob
+    }
+
+    class ListStashedResourcesIds {
+        +execute(): Flow<List<Int>>
+    }
+
+    class IdentifyResource {
+        +execute(resourceId: Long): Flow<ResourceMetadata>
+    }
+
+    PreviewResource --> ParsedResource
+    PreviewResource --> ResourceRepository
+    PreviewResource --> ParserService
+    IdentifyResource --> ResourceMetadata
+    IdentifyResource --> ResourceRepository
+    IdentifyResource --> ParserService
+    SaveResource --> ResourceRepository
+}
+
+package presentation {
+    package presentation.preview {
+        class PreviewContainerViewModel {
+            previewMode: Flow<PreviewMode>
+            title: Flow<String>
+            author: Flow<String>
+            site: Flow<String>
+            content: Flow<String>
+        }
+
+        enum PreviewMode {
+            YOUTUBE,
+            ARTICLE,
+        }
+
+        PreviewContainerViewModel --> PreviewResource
+        PreviewContainerViewModel -left-> PreviewMode
+    }
+
+    package presentation.stash {
+        class StashViewModel {
+            +stashedResourcesIds: Flow<List<Int>>
+            +saveResource(url: String): DeferredJob
+        }
+
+        StashViewModel --> ListStashedResourcesIds
+        StashViewModel --> SaveResource
+        StashViewModel --> PreviewResource
+    }
+
+    package presentation.resource {
+        class ResourceViewModel {
+            +title: Flow<String>
+            +description: Flow<String>
+            +author: Flow<String>
+            +site: Flow<String>
+            +thumbnailUrl: Flow<String>
+            +estimatedConsumptionSeconds: Flow<Long>
+        }
+
+        ResourceViewModel --> IdentifyResource
+    }
+}
+
+package ui {
+    package ui.stash {
+        class StashFragment
+        class StashAdapter
+        StashAdapter --> StashViewModel
+        StashFragment --> StashViewModel
+        StashFragment --> ResourceViewHolder
+    }
+    
+    package ui.preview {        
+        class PreviewContainerFragment
+        PreviewContainerFragment --> PreviewContainerViewModel
+        PreviewContainerFragment --> PreviewMode
+    }
+
+    package ui.resource {
+        class ResourceViewHolder
+        ResourceViewHolder --> ResourceViewModel
+    }
+}
+
+package parser {
+    class ArticleParser {
+        parse(url: String): HtmlResource
+    }
+
+    class YouTubeParser {
+        parse(url: String): YouTubeResource
+    }
+
+    YouTubeParser -down-|> ResourceParser
+    ArticleParser -down-|> ResourceParser
+}
+@enduml
