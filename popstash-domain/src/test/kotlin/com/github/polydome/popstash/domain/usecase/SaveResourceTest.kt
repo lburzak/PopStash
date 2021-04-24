@@ -2,7 +2,7 @@ package com.github.polydome.popstash.domain.usecase
 
 import com.github.polydome.popstash.domain.model.Resource
 import com.github.polydome.popstash.domain.repository.ResourceRepository
-import com.google.common.truth.Truth.assertThat
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
@@ -12,8 +12,8 @@ import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 internal class SaveResourceTest {
-    val sut = SaveResource()
-    val resourceRepository = mockk<ResourceRepository>()
+    val resourceRepository = mockk<ResourceRepository>(relaxed = true)
+    val sut = SaveResource(resourceRepository)
 
     @Nested
     inner class `given valid url` {
@@ -28,7 +28,7 @@ internal class SaveResourceTest {
                         url = url
                 )
 
-                verify { resourceRepository.insert(expectedResource) }
+                coVerify(exactly = 1) { resourceRepository.insert(expectedResource) }
             }
         }
     }
