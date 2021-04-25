@@ -1,0 +1,23 @@
+Project popstash {
+  database_type: 'SQLite'
+}
+
+Table resource {
+  url text [pk, not null]
+}
+
+Table directory {
+  id integer [pk]
+  name text [not null]
+  parent_id integer [ref: - directory.id]
+}
+
+Table archived_resource {
+  url text [pk, not null, ref: - resource.url]
+  directory_id integer [ref: - directory.id]
+}
+
+Table trashed_resource {
+  url text [pk, not null, ref: - resource.url]
+  date_trashed integer [not null]
+}

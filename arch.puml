@@ -51,7 +51,9 @@ package domain {
     }
 
     package domain.repository {
-        class ResourceRepository
+        interface ResourceRepository {
+            +insertOne(resource: Resource)
+        }
 
         ResourceRepository --> Resource
     }
@@ -187,6 +189,7 @@ package usecase {
     IdentifyResource --> ResourceRepository
     IdentifyResource --> ParserService
     SaveResource --> ResourceRepository
+    ListStashedResourcesIds --> ResourceRepository
 }
 
 package presentation {
@@ -265,5 +268,13 @@ package parser {
 
     YouTubeParser -down-|> ResourceParser
     ArticleParser -down-|> ResourceParser
+}
+
+package data {
+    class LocalResourceRepository {
+        +insertOne(resource: Resource)
+    }
+
+    LocalResourceRepository --|> ResourceRepository
 }
 @enduml
