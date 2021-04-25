@@ -1,3 +1,4 @@
 rootProject.name = 'PopStash'
 
 include 'popstash-domain'
+include 'popstash-data'
