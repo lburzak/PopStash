@@ -10,9 +10,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 internal class LocalResourceRepositoryTest {
-    val sut = LocalResourceRepository()
     val context = InstrumentationRegistry.getInstrumentation().targetContext
     val db: AppDatabase = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
+    val sut = LocalResourceRepository(db.resourceDao())
 
     @Test
     internal fun givenResource_whenInsert_thenEntityIsInDatabase() = runBlocking {
