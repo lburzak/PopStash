@@ -4,7 +4,6 @@ import com.github.polydome.popstash.domain.model.Resource
 import com.github.polydome.popstash.domain.repository.ResourceRepository
 import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -28,7 +27,7 @@ internal class SaveResourceTest {
                         url = url
                 )
 
-                coVerify(exactly = 1) { resourceRepository.insert(expectedResource) }
+                coVerify(exactly = 1) { resourceRepository.insertOne(expectedResource) }
             }
         }
     }

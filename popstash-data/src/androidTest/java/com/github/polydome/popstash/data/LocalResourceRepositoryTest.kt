@@ -25,7 +25,7 @@ internal class LocalResourceRepositoryTest {
                 url = "http://example.com/article"
         )
 
-        sut.insert(resource)
+        sut.insertOne(resource)
 
         val entityInDatabase = db.resourceDao().findOneByUrl(resource.url)
 

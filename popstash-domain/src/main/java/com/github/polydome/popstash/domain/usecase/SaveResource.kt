@@ -7,6 +7,6 @@ class SaveResource(private val resourceRepository: ResourceRepository) {
     suspend fun execute(url: String) {
         val resource = Resource(url = url)
 
-        resourceRepository.insert(resource)
+        resourceRepository.insertOne(resource)
     }
 }
