@@ -1,19 +1,23 @@
 package com.github.polydome.popstash.data
 
-import androidx.room.Room
-import androidx.test.platform.app.InstrumentationRegistry
-import com.github.polydome.popstash.data.entity.ResourceEntity
 import com.github.polydome.popstash.data.entity.toEntity
 import com.github.polydome.popstash.data.repository.LocalResourceRepository
+import com.github.polydome.popstash.data.test.createInMemoryDatabase
 import com.github.polydome.popstash.domain.model.Resource
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
+import org.junit.Before
 import org.junit.Test
 
 internal class LocalResourceRepositoryTest {
-    val context = InstrumentationRegistry.getInstrumentation().targetContext
-    val db: AppDatabase = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
-    val sut = LocalResourceRepository(db.resourceDao())
+    private lateinit var db: AppDatabase
+    private lateinit var sut: LocalResourceRepository
+
+    @Before
+    fun setUp() {
+        db = createInMemoryDatabase()
+        sut = LocalResourceRepository(db.resourceDao())
+    }
 
     @Test
     internal fun givenResource_whenInsert_thenEntityIsInDatabase() = runBlocking {
