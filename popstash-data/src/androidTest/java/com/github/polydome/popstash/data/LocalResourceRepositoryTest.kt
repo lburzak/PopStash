@@ -3,6 +3,7 @@ package com.github.polydome.popstash.data
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.github.polydome.popstash.data.entity.ResourceEntity
+import com.github.polydome.popstash.data.entity.toEntity
 import com.github.polydome.popstash.data.repository.LocalResourceRepository
 import com.github.polydome.popstash.domain.model.Resource
 import com.google.common.truth.Truth.assertThat
@@ -25,6 +26,6 @@ internal class LocalResourceRepositoryTest {
         val entityInDatabase = db.resourceDao().findOneByUrl(resource.url)
 
         assertThat(entityInDatabase)
-                .isEqualTo(ResourceEntity.fromResource(resource))
+                .isEqualTo(resource.toEntity())
     }
 }

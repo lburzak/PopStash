@@ -8,10 +8,8 @@ import com.github.polydome.popstash.domain.model.Resource
 data class ResourceEntity(
         @PrimaryKey
         val url: String
-) {
-        companion object {
-                fun fromResource(resource: Resource): ResourceEntity = ResourceEntity(
-                        url = resource.url
-                )
-        }
-}
+)
+
+fun Resource.toEntity(): ResourceEntity = ResourceEntity(
+        url = url
+)
