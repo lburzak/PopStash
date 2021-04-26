@@ -43,6 +43,28 @@ package domain {
             +pinnedResources: <Resource>
         }
 
+        class ResourceMetadata {
+            +title: String
+            +description: String
+            +site: String
+            +author: String?
+            +thumbnailUrl: String?
+            +estimatedConsumptionSeconds: Long?
+        }
+
+        class ParsedResource {
+            +metadata: ResourceMetadata
+        }
+
+        class HtmlResource extends ParsedResource {
+            +htmlContent: String
+        }
+
+        class YouTubeResource extends ParsedResource {
+            +videoId: String
+        }
+
+        ParsedResource --> ResourceMetadata
         Queue -left-> QueueDefinition
         Queue --> Resource
         QueueDefinition --> Selector
@@ -90,48 +112,7 @@ package domain {
             +emptyTrash()
         }
 
-        QueueService -right-> Queue
-        QueueService --> QueueDefinition
-        QueueService --> Resource
-        StashService --> Resource
-        ArchiveService --> Resource
-        TrashService --> Resource
-    }
-}
-
-package usecase {
-    package usecase.entity {
-        class ResourceMetadata {
-            +title: String
-            +description: String
-            +site: String
-            +author: String?
-            +thumbnailUrl: String?
-            +estimatedConsumptionSeconds: Long?
-        }
-
-        class ParsedResource {
-            +metadata: ResourceMetadata
-        }
-
-        class HtmlResource extends ParsedResource {
-            +htmlContent: String
-        }
-
-        class YouTubeResource extends ParsedResource {
-            +videoId: String
-        }
-
-        ParsedResource --> ResourceMetadata
-    }
-
-    package usecase.service {
-        interface MetadataCache {
-            +contains(url: String): Boolean
-            +get(url: String): ParsedResource
-            +put(parsedResource: ParsedResource)
-        }
-        package usecase.service.parser {
+        package domain.service.parser {
             class ParserService {
                 +parse(url: String): ParsedResource
             }
@@ -152,6 +133,12 @@ package usecase {
                 +put(parsedResource: ParsedResource)
             }
 
+            interface MetadataCache {
+                +contains(url: String): Boolean
+                +get(url: String): ParsedResource
+                +put(parsedResource: ParsedResource)
+            }
+
             enum ContentType {
                 ARTICLE
             }
@@ -163,8 +150,19 @@ package usecase {
             ParserService --> ContentType
             ParserService --> ParserCache
             ParserService -up-> ResourceParser
+            ParserService --> MetadataCache
         }
+
+        QueueService -right-> Queue
+        QueueService --> QueueDefinition
+        QueueService --> Resource
+        StashService --> Resource
+        ArchiveService --> Resource
+        TrashService --> Resource
     }
+}
+
+package usecase {
     class PreviewResource {
         +currentResource: Flow<ParsedResource>
         +execute()
