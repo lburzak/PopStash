@@ -30,6 +30,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += [
+                '-Xopt-in=kotlin.time.ExperimentalTime',
+        ]
     }
 }
 
@@ -49,4 +52,7 @@ dependencies {
 
     // Assertions
     androidTestImplementation "com.google.truth:truth:1.1.2"
+
+    // Flow testing
+    androidTestImplementation 'app.cash.turbine:turbine:0.4.1'
 }

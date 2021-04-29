@@ -1,5 +1,6 @@
 package com.github.polydome.popstash.data
 
+import app.cash.turbine.test
 import com.github.polydome.popstash.data.entity.toEntity
 import com.github.polydome.popstash.data.repository.LocalResourceRepository
 import com.github.polydome.popstash.data.test.createInMemoryDatabase
@@ -31,5 +32,19 @@ internal class LocalResourceRepositoryTest {
 
         assertThat(entityInDatabase)
                 .isEqualTo(resource.toEntity())
+    }
+
+    @Test
+    internal fun givenOneResourceInDB_whenGetAllUrls_thenEmitsListWithOneUrl() = runBlocking {
+        val resource = Resource(
+                url = "http://example.com/article"
+        )
+
+        sut.insertOne(resource)
+
+        db.resourceDao().getAllUrls().test {
+            assertThat(expectItem()).containsExactly(resource.url)
+            expectNoEvents()
+        }
     }
 }

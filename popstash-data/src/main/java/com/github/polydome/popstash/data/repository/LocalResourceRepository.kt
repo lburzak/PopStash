@@ -5,9 +5,14 @@ import com.github.polydome.popstash.data.entity.ResourceEntity
 import com.github.polydome.popstash.data.entity.toEntity
 import com.github.polydome.popstash.domain.model.Resource
 import com.github.polydome.popstash.domain.repository.ResourceRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 
 class LocalResourceRepository(private val resourceDao: ResourceDao) : ResourceRepository {
     override suspend fun insertOne(resource: Resource) {
         resourceDao.insertOne(resource.toEntity())
     }
+
+    override fun watchAllUrls(): Flow<List<String>> =
+        resourceDao.getAllUrls()
 }
