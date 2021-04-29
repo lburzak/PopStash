@@ -19,6 +19,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation "com.google.truth:truth:1.1.2"
     testImplementation "io.mockk:mockk:1.11.0"
+    testImplementation 'app.cash.turbine:turbine:0.4.1'
 }
 
 test {
@@ -31,5 +32,13 @@ test {
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs += [
+                '-Xopt-in=kotlin.time.ExperimentalTime',
+        ]
     }
 }
