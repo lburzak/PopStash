@@ -2,6 +2,8 @@ package com.github.polydome.popstash.domain.usecase
 
 import app.cash.turbine.test
 import com.github.polydome.popstash.domain.repository.ResourceRepository
+import com.github.polydome.popstash.domain.usecase.test.emptyHotFlow
+import com.github.polydome.popstash.domain.usecase.test.hotFlowOf
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
@@ -48,13 +50,4 @@ internal class ListStashedUrlsTest {
             }
         }
     }
-
-    fun <T> hotFlowOf(value: T) =
-            MutableSharedFlow<T>(1)
-                    .apply {
-                        tryEmit(value)
-                    }
-
-    fun <T> emptyHotFlow() =
-            MutableSharedFlow<T>()
 }
