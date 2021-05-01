@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,5 +22,12 @@ class ActivityModule {
     @Provides
     fun layoutInflater(@ActivityContext context: Context): LayoutInflater {
         return LayoutInflater.from(context)
+    }
+
+    companion object {
+        @Provides
+        fun linearLayoutManager(@ActivityContext context: Context): LinearLayoutManager {
+            return LinearLayoutManager(context)
+        }
     }
 }
