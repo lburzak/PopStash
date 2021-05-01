@@ -1,10 +1,17 @@
 package com.github.polydome.popstash.app.di
 
+import android.content.ClipboardManager
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.polydome.popstash.app.service.AndroidClipboard
+import com.github.polydome.popstash.app.viewmodel.Clipboard
+import com.github.polydome.popstash.app.viewmodel.StashViewModel
+import com.github.polydome.popstash.app.viewmodel.ViewModelFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,4 +37,22 @@ class ActivityModule {
             return LinearLayoutManager(context)
         }
     }
+
+    @Provides
+    fun clipboardManager(@ActivityContext context: Context): ClipboardManager =
+            getSystemService(context, ClipboardManager::class.java) as ClipboardManager
+
+    @Provides
+    fun clipboard(androidClipboard: AndroidClipboard): Clipboard =
+            androidClipboard
+
+    @Provides
+    fun viewModelProvider(activity: FragmentActivity,
+                          viewModelFactory: ViewModelFactory): ViewModelProvider =
+            ViewModelProvider(activity, viewModelFactory)
+
+    @Provides
+    @BoundViewModel
+    fun stashViewModel(viewModelProvider: ViewModelProvider): StashViewModel =
+            viewModelProvider.get(StashViewModel::class.java)
 }

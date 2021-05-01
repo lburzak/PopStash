@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.adapter.StashAdapter
+import com.github.polydome.popstash.app.di.BoundViewModel
+import com.github.polydome.popstash.app.viewmodel.StashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -13,6 +15,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     @Inject lateinit var stashAdapter: StashAdapter
     @Inject lateinit var linearLayoutManager: LinearLayoutManager
+    @Inject @BoundViewModel lateinit var stashViewModel: StashViewModel
 
     private val stashRecyclerView: RecyclerView
         get() = findViewById(R.id.stash_recycler_view)
