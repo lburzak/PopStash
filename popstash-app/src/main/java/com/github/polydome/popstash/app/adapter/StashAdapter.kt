@@ -8,7 +8,7 @@ import com.github.polydome.popstash.app.viewholder.ResourceViewHolder
 
 class StashAdapter(private val layoutInflater: LayoutInflater) : RecyclerView.Adapter<ResourceViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResourceViewHolder {
-        val view =  layoutInflater.inflate(R.layout.row_resource, parent, true)
+        val view =  layoutInflater.inflate(R.layout.row_resource, parent, false)
         return ResourceViewHolder(view)
     }
 
