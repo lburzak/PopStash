@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val stashRecyclerView = findViewById<RecyclerView>(R.id.stash_recycler_view)
-        stashRecyclerView.adapter = StashAdapter(LayoutInflater.from(this))
+        stashRecyclerView.adapter = StashAdapter(LayoutInflater.from(this), this)
         stashRecyclerView.layoutManager = LinearLayoutManager(this).apply {
             orientation = LinearLayoutManager.VERTICAL
         }

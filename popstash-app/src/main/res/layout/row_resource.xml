@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        style="@style/TextAppearance.AppCompat.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="10 great ideas to improve your Gradle build times"/>
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.github.polydome.popstash.app.viewmodel.ResourceViewModel" />
+    </data>
 
-    <TextView
-        style="@style/TextAppearance.AppCompat.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="medium.com"/>
-
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/separator_resource_row"
-        android:scaleType="fitXY"
-        android:contentDescription="@null" />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.title}"
+            tools:text="10 great ideas to improve your Gradle build times" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.url}"
+            tools:text="medium.com" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/separator_resource_row" />
+
+    </LinearLayout>
+</layout>
