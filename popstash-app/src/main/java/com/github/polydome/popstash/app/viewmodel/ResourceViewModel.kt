@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ResourceViewModel : ViewModel() {
+class ResourceViewModel @Inject constructor() : ViewModel() {
     private val _title = MutableLiveData<String>()
     private val _url = MutableLiveData<String>()
 
