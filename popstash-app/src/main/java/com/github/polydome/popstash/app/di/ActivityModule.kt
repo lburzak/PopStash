@@ -9,7 +9,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.polydome.popstash.app.service.AndroidClipboard
+import com.github.polydome.popstash.app.service.AndroidPatternMatcher
 import com.github.polydome.popstash.app.viewmodel.Clipboard
+import com.github.polydome.popstash.app.viewmodel.PatternMatcher
 import com.github.polydome.popstash.app.viewmodel.StashViewModel
 import com.github.polydome.popstash.app.viewmodel.ViewModelFactory
 import dagger.Module
@@ -55,4 +57,8 @@ class ActivityModule {
     @BoundViewModel
     fun stashViewModel(viewModelProvider: ViewModelProvider): StashViewModel =
             viewModelProvider.get(StashViewModel::class.java)
+
+    @Provides
+    fun patternMatcher(androidPatternMatcher: AndroidPatternMatcher): PatternMatcher =
+            androidPatternMatcher
 }

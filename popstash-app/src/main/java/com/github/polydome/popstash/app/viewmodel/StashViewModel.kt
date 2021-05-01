@@ -17,6 +17,7 @@ import javax.inject.Inject
 class StashViewModel @Inject constructor(
         private val saveResource: SaveResource,
         private val clipboard: Clipboard,
+        private val patternMatcher: PatternMatcher
 ) : ViewModel() {
 
     private val clipboardContents = flow {
@@ -41,7 +42,7 @@ class StashViewModel @Inject constructor(
     fun monitorClipboard() {
         viewModelScope.launch {
             clipboardContents
-                    .map { content -> android.util.Patterns.WEB_URL.matcher(content).matches() }
+                    .map(patternMatcher::matchUrl)
                     .collect {
                         _isUrlInClipboard.postValue(it)
                     }
