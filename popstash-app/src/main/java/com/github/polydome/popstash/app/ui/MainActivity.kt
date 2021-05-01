@@ -1,7 +1,6 @@
 package com.github.polydome.popstash.app.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,8 +17,10 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var stashAdapter: StashAdapter
+
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
+
     @Inject
     @BoundViewModel
     lateinit var viewModel: StashViewModel
@@ -30,23 +31,29 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-                .apply {
-                    viewModel = this@MainActivity.viewModel
-                    lifecycleOwner = this@MainActivity
-                }
+        setupContentView()
+        setupStashList()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.monitorClipboard()
+    }
+
+    private fun setupContentView() {
+        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+                .also {
+                    it.viewModel = viewModel
+                    it.lifecycleOwner = this
+                }
+    }
+
+    private fun setupStashList() {
         stashRecyclerView.apply {
             adapter = stashAdapter
             layoutManager = linearLayoutManager.apply {
                 orientation = LinearLayoutManager.VERTICAL
             }
         }
-
-        viewModel.isUrlInClipboard.observe(this) {
-            Log.d("StashViewModel", "viewModel.isUrlInClipboard: %s".format(it))
-        }
-
-        viewModel.monitorClipboard()
     }
 }
