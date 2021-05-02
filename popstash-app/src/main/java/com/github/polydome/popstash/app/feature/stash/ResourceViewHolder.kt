@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.viewholder
+package com.github.polydome.popstash.app.feature.stash
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.github.polydome.popstash.app.databinding.RowResourceBinding
 import com.github.polydome.popstash.app.di.scope.BoundViewModel
-import com.github.polydome.popstash.app.viewmodel.ResourceViewModel
+import com.github.polydome.popstash.app.presentation.viewmodel.ResourceViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 

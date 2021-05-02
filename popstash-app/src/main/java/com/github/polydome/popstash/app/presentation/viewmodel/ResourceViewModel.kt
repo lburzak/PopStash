@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.viewmodel
+package com.github.polydome.popstash.app.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

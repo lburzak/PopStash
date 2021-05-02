@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.model
+package com.github.polydome.popstash.app.feature.stash
 
 import javax.inject.Inject
 

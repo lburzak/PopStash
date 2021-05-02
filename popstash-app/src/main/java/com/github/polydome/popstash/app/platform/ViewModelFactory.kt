@@ -1,7 +1,9 @@
-package com.github.polydome.popstash.app.viewmodel
+package com.github.polydome.popstash.app.platform
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.github.polydome.popstash.app.presentation.viewmodel.ResourceViewModel
+import com.github.polydome.popstash.app.presentation.viewmodel.StashViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 

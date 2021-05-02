@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.ui
+package com.github.polydome.popstash.app.platform
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,10 +6,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.polydome.popstash.app.R
-import com.github.polydome.popstash.app.adapter.StashAdapter
+import com.github.polydome.popstash.app.feature.stash.StashAdapter
 import com.github.polydome.popstash.app.databinding.ActivityMainBinding
 import com.github.polydome.popstash.app.di.scope.BoundViewModel
-import com.github.polydome.popstash.app.viewmodel.StashViewModel
+import com.github.polydome.popstash.app.presentation.viewmodel.StashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

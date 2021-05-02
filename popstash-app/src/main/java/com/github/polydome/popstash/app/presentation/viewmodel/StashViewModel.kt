@@ -1,9 +1,11 @@
-package com.github.polydome.popstash.app.viewmodel
+package com.github.polydome.popstash.app.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.polydome.popstash.app.presentation.service.Clipboard
+import com.github.polydome.popstash.app.presentation.service.PatternMatcher
 import com.github.polydome.popstash.app.util.Millis
 import com.github.polydome.popstash.app.util.intervalFlow
 import com.github.polydome.popstash.domain.usecase.SaveResource

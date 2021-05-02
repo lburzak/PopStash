@@ -6,12 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.polydome.popstash.app.service.AndroidClipboard
-import com.github.polydome.popstash.app.service.AndroidPatternMatcher
-import com.github.polydome.popstash.app.viewmodel.Clipboard
-import com.github.polydome.popstash.app.viewmodel.PatternMatcher
-import com.github.polydome.popstash.app.viewmodel.StashViewModel
-import com.github.polydome.popstash.app.viewmodel.ViewModelFactory
+import com.github.polydome.popstash.app.platform.ViewModelFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
