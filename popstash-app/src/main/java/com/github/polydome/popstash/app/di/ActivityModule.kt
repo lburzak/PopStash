@@ -1,9 +1,7 @@
 package com.github.polydome.popstash.app.di
 
-import android.content.ClipboardManager
 import android.content.Context
 import android.view.LayoutInflater
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
@@ -22,7 +20,7 @@ import dagger.hilt.android.qualifiers.ActivityContext
 
 @Module
 @InstallIn(ActivityComponent::class)
-class ActivityModule {
+object ActivityModule {
     @Provides
     fun lifecycleOwner(activity: FragmentActivity): LifecycleOwner {
         return activity
@@ -33,32 +31,15 @@ class ActivityModule {
         return LayoutInflater.from(context)
     }
 
-    companion object {
-        @Provides
-        fun linearLayoutManager(@ActivityContext context: Context): LinearLayoutManager {
-            return LinearLayoutManager(context)
-        }
+    @Provides
+    fun linearLayoutManager(@ActivityContext context: Context): LinearLayoutManager {
+        return LinearLayoutManager(context)
     }
 
     @Provides
-    fun clipboardManager(@ActivityContext context: Context): ClipboardManager =
-            getSystemService(context, ClipboardManager::class.java) as ClipboardManager
-
-    @Provides
-    fun clipboard(androidClipboard: AndroidClipboard): Clipboard =
-            androidClipboard
-
-    @Provides
-    fun viewModelProvider(activity: FragmentActivity,
-                          viewModelFactory: ViewModelFactory): ViewModelProvider =
+    fun viewModelProvider(
+            activity: FragmentActivity,
+            viewModelFactory: ViewModelFactory,
+    ): ViewModelProvider =
             ViewModelProvider(activity, viewModelFactory)
-
-    @Provides
-    @BoundViewModel
-    fun stashViewModel(viewModelProvider: ViewModelProvider): StashViewModel =
-            viewModelProvider.get(StashViewModel::class.java)
-
-    @Provides
-    fun patternMatcher(androidPatternMatcher: AndroidPatternMatcher): PatternMatcher =
-            androidPatternMatcher
 }
