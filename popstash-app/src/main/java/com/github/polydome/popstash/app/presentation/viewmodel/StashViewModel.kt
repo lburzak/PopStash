@@ -36,9 +36,11 @@ class StashViewModel @Inject constructor(
     }
 
     fun checkClipboardForUrl() {
-        val content = clipboard.getText()
+        _isUrlInClipboard.postValue(clipboardContainsUrl())
+    }
 
-        if (patternMatcher.matchUrl(content))
-            _isUrlInClipboard.postValue(true)
+    private fun clipboardContainsUrl(): Boolean {
+        val clipboardContent = clipboard.getText()
+        return patternMatcher.matchUrl(clipboardContent)
     }
 }
