@@ -8,8 +8,10 @@ import com.github.polydome.popstash.app.presentation.service.Clipboard
 import com.github.polydome.popstash.app.presentation.service.PatternMatcher
 import com.github.polydome.popstash.app.util.Millis
 import com.github.polydome.popstash.app.util.intervalFlow
+import com.github.polydome.popstash.domain.usecase.ListStashedUrls
 import com.github.polydome.popstash.domain.usecase.SaveResource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -18,6 +20,7 @@ import javax.inject.Inject
 
 class StashViewModel @Inject constructor(
         private val saveResource: SaveResource,
+        private val listStashedUrls: ListStashedUrls,
         private val clipboard: Clipboard,
         private val patternMatcher: PatternMatcher,
 ) : ViewModel() {
@@ -27,6 +30,7 @@ class StashViewModel @Inject constructor(
     private val _isUrlInClipboard = MutableLiveData<Boolean>()
 
     val isUrlInClipboard: LiveData<Boolean> = _isUrlInClipboard
+    val urls: Flow<List<String>> = listStashedUrls.execute()
 
     fun saveUrlFromClipboard() {
         viewModelScope.launch {
