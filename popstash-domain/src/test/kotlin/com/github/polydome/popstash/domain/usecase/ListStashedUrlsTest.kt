@@ -50,4 +50,26 @@ internal class ListStashedUrlsTest {
             }
         }
     }
+
+    @Nested
+    inner class `given url is stashed after subscribing` {
+        private val stashedUrl = "http://example.com/slug"
+
+        @Test
+        internal fun `when execute then emits empty list and list with one url`() = runBlocking {
+            val urls = MutableSharedFlow<List<String>>()
+
+            every { resourceRepository.watchAllUrls() } returns urls
+
+            sut.execute().test {
+                urls.emit(emptyList())
+                assertThat(expectItem()).isEmpty()
+
+                urls.emit(listOf(stashedUrl))
+                assertThat(expectItem()).containsExactly(stashedUrl)
+
+                expectNoEvents()
+            }
+        }
+    }
 }
