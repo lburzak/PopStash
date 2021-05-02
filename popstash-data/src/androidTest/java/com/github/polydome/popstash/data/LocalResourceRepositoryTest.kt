@@ -47,4 +47,19 @@ internal class LocalResourceRepositoryTest {
             expectNoEvents()
         }
     }
+
+    @Test
+    internal fun givenAnotherResourceIsAdded_whenGetAllUrls_thenUpdatedListIsEmitted() = runBlocking {
+        val firstResource = Resource(url = "http://example.com/article")
+        val secondResource = Resource(url =  "http://example.com/second-article")
+
+        sut.insertOne(firstResource)
+
+        db.resourceDao().getAllUrls().test {
+            assertThat(expectItem()).containsExactly(firstResource.url)
+            sut.insertOne(secondResource)
+            assertThat(expectItem()).containsExactly(firstResource.url, secondResource.url)
+            expectNoEvents()
+        }
+    }
 }
