@@ -9,7 +9,7 @@ import javax.inject.Provider
 
 class ViewModelFactory @Inject constructor(
         private val stashViewModelProvider: Provider<StashViewModel>,
-        private val resourceViewModelProvider: Provider<ResourceViewModel>,
+        private val resourceViewModelProvider: Provider<ResourceViewModel>
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when (modelClass) {

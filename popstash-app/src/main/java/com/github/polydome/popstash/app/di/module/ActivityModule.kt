@@ -34,7 +34,7 @@ object ActivityModule {
     @Provides
     fun viewModelProvider(
             activity: FragmentActivity,
-            viewModelFactory: ViewModelFactory,
+            viewModelFactory: ViewModelFactory
     ): ViewModelProvider =
             ViewModelProvider(activity, viewModelFactory)
 }
