@@ -2,7 +2,6 @@ package com.github.polydome.popstash.app.di.module
 
 import androidx.lifecycle.ViewModelProvider
 import com.github.polydome.popstash.app.di.scope.BoundViewModel
-import com.github.polydome.popstash.app.presentation.viewmodel.ResourceViewModel
 import com.github.polydome.popstash.app.presentation.viewmodel.StashViewModel
 import dagger.Module
 import dagger.Provides
@@ -16,9 +15,4 @@ object PresentationModule {
     @BoundViewModel
     fun stashViewModel(viewModelProvider: ViewModelProvider): StashViewModel =
             viewModelProvider.get(StashViewModel::class.java)
-
-    @Provides
-    @BoundViewModel
-    fun resourceViewModel(viewModelProvider: ViewModelProvider): ResourceViewModel =
-            viewModelProvider.get(ResourceViewModel::class.java)
 }
