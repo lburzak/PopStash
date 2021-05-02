@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.di
+package com.github.polydome.popstash.app.di.module
 
 import com.github.polydome.popstash.app.service.AndroidClipboard
 import com.github.polydome.popstash.app.service.AndroidPatternMatcher

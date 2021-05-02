@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.di
+package com.github.polydome.popstash.app.di.scope
 
 import javax.inject.Qualifier
 

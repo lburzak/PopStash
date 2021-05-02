@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.di
+package com.github.polydome.popstash.app.di.module
 
 import android.content.Context
 import androidx.room.Room

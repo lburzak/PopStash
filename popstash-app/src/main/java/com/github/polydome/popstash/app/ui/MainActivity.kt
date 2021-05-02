@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.adapter.StashAdapter
 import com.github.polydome.popstash.app.databinding.ActivityMainBinding
-import com.github.polydome.popstash.app.di.BoundViewModel
+import com.github.polydome.popstash.app.di.scope.BoundViewModel
 import com.github.polydome.popstash.app.viewmodel.StashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
