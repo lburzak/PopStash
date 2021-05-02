@@ -42,6 +42,13 @@ class StashViewModel @Inject constructor(
         }
     }
 
+    fun checkClipboardForUrl() {
+        val content = clipboard.getText()
+
+        if (patternMatcher.matchUrl(content))
+            _isUrlInClipboard.postValue(true)
+    }
+
     fun monitorClipboard() {
         viewModelScope.launch {
             clipboardContents

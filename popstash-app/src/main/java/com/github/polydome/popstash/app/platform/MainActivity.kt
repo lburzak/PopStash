@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.monitorClipboard()
+        viewModel.checkClipboardForUrl()
     }
 
     private fun setupContentView() {
