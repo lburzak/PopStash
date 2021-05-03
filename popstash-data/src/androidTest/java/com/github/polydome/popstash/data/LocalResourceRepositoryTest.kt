@@ -62,4 +62,25 @@ internal class LocalResourceRepositoryTest {
             expectNoEvents()
         }
     }
+
+    @Test
+    fun givenResourceNotExists_whenWatchUrlExists_thenEmitsFalse() = runBlocking {
+        val url = "http://example.com"
+
+        sut.watchUrlExists(url).test {
+            assertThat(expectItem()).isFalse()
+        }
+    }
+
+    @Test
+    fun givenResourceInserted_whenWatchUrlExists_thenEmitsFalseThenTrue() = runBlocking {
+        val url = "http://example.com"
+        val resource = Resource(url = url)
+
+        sut.watchUrlExists(url).test {
+            assertThat(expectItem()).isFalse()
+            db.resourceDao().insertOne(resource.toEntity())
+            assertThat(expectItem()).isTrue()
+        }
+    }
 }

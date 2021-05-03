@@ -4,7 +4,7 @@ import com.github.polydome.popstash.data.dao.ResourceDao
 import com.github.polydome.popstash.data.entity.toEntity
 import com.github.polydome.popstash.domain.model.Resource
 import com.github.polydome.popstash.domain.repository.ResourceRepository
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class LocalResourceRepository @Inject constructor(private val resourceDao: ResourceDao) : ResourceRepository {
@@ -14,4 +14,7 @@ class LocalResourceRepository @Inject constructor(private val resourceDao: Resou
 
     override fun watchAllUrls(): Flow<List<String>> =
             resourceDao.getAllUrls()
+
+    override fun watchUrlExists(url: String): Flow<Boolean> =
+            resourceDao.checkUrlExists(url)
 }
