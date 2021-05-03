@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SaveFromClipboardViewModel @Inject constructor(
         private val saveResource: SaveResource,
         private val clipboard: Clipboard,
-        private val patternMatcher: PatternMatcher,
+        private val patternMatcher: PatternMatcher
 ) : ViewModel() {
     private val _isUrlInClipboard = MutableLiveData<Boolean>()
     private val _urlInClipboard = MutableLiveData(clipboard.getText())
@@ -35,10 +35,9 @@ class SaveFromClipboardViewModel @Inject constructor(
 
     fun checkClipboardForUrl() {
         val clipboardContent = clipboard.getText()
+        val isUrlInClipboard = patternMatcher.matchUrl(clipboardContent)
 
         urlInClipboard.postValue(clipboardContent)
-        _isUrlInClipboard.postValue(
-                patternMatcher.matchUrl(clipboardContent)
-        )
+        _isUrlInClipboard.postValue(isUrlInClipboard)
     }
 }
