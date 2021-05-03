@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.polydome.popstash.app.presentation.service.Clipboard
 import com.github.polydome.popstash.app.presentation.service.PatternMatcher
+import com.github.polydome.popstash.domain.usecase.CheckResourceExists
 import com.github.polydome.popstash.domain.usecase.SaveResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,6 +15,7 @@ import javax.inject.Inject
 
 class SaveFromClipboardViewModel @Inject constructor(
         private val saveResource: SaveResource,
+        private val checkResourceExists: CheckResourceExists,
         private val clipboard: Clipboard,
         private val patternMatcher: PatternMatcher
 ) : ViewModel() {
@@ -38,6 +40,17 @@ class SaveFromClipboardViewModel @Inject constructor(
         val isUrlInClipboard = patternMatcher.matchUrl(clipboardContent)
 
         urlInClipboard.postValue(clipboardContent)
-        _isUrlInClipboard.postValue(isUrlInClipboard)
+
+        if (isUrlInClipboard) {
+            viewModelScope.launch {
+                val urlAlreadySaved = checkResourceExists.execute(clipboardContent)
+
+                withContext(Dispatchers.Main) {
+                    _isUrlInClipboard.postValue(!urlAlreadySaved)
+                }
+            }
+        } else {
+            _isUrlInClipboard.postValue(false)
+        }
     }
 }
