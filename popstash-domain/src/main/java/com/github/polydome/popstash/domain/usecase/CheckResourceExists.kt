@@ -4,5 +4,5 @@ import com.github.polydome.popstash.domain.repository.ResourceRepository
 
 class CheckResourceExists(private val resourceRepository: ResourceRepository) {
     suspend fun execute(url: String): Boolean =
-            resourceRepository.existsResource(url)
+            resourceRepository.existsResourceByUrl(url)
 }

@@ -7,5 +7,5 @@ interface ResourceRepository {
     suspend fun insertOne(resource: Resource)
     fun watchAllUrls(): Flow<List<String>>
     fun watchUrlExists(url: String): Flow<Boolean>
-    suspend fun existsResource(url: String): Boolean
+    suspend fun existsResourceByUrl(url: String): Boolean
 }

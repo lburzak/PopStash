@@ -75,4 +75,16 @@ internal class LocalResourceRepositoryTest {
             assertThat(expectItem()).isTrue()
         }
     }
+
+    @Test
+    fun givenResourceNotExists_whenExistsResourceById_thenReturnsTrue() = runBlocking {
+        val result = sut.existsResourceByUrl(NOT_EXISTING_RESOURCE.url)
+        assertThat(result).isFalse()
+    }
+
+    @Test
+    fun givenResourceExists_whenExistsResourceById_thenReturnsFalse() = runBlocking {
+        val result = sut.existsResourceByUrl(EXISTING_RESOURCE.url)
+        assertThat(result).isTrue()
+    }
 }

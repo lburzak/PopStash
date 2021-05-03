@@ -1,11 +1,8 @@
 package com.github.polydome.popstash.domain.usecase
 
-import app.cash.turbine.test
 import com.github.polydome.popstash.domain.repository.ResourceRepository
-import com.github.polydome.popstash.domain.usecase.test.hotFlowOf
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Nested
@@ -24,7 +21,7 @@ internal class CheckResourceExistsTest {
     @Nested
     inner class `given resource not exists` {
         init {
-            coEvery { resourceRepository.existsResource(URL) } returns false
+            coEvery { resourceRepository.existsResourceByUrl(URL) } returns false
         }
 
         @Test
@@ -37,7 +34,7 @@ internal class CheckResourceExistsTest {
     @Nested
     inner class `given resource exists` {
         init {
-            coEvery { resourceRepository.existsResource(URL) } returns true
+            coEvery { resourceRepository.existsResourceByUrl(URL) } returns true
         }
 
         @Test
