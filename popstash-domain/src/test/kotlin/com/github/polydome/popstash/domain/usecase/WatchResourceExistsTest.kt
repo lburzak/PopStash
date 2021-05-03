@@ -13,21 +13,23 @@ import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 internal class WatchResourceExistsTest {
+    companion object {
+        val URL = "http://example.com"
+    }
+
     private val resourceRepository = mockk<ResourceRepository>()
     private val sut: WatchResourceExists = WatchResourceExists(resourceRepository)
 
     @Nested
     inner class `given resource not exists` {
-        private val notExistingUrl = "http://example.com"
-
         init {
-            every { resourceRepository.watchUrlExists(notExistingUrl) } returns
+            every { resourceRepository.watchUrlExists(URL) } returns
                     hotFlowOf(false)
         }
 
         @Test
         internal fun `when execute then emits false`() = runBlocking {
-            sut.execute(notExistingUrl).test {
+            sut.execute(URL).test {
                 assertThat(expectItem()).isFalse()
                 expectNoEvents()
             }
@@ -36,16 +38,14 @@ internal class WatchResourceExistsTest {
 
     @Nested
     inner class `given resource exists` {
-        private val existingUrl = "http://example.com/article"
-
         init {
-            every { resourceRepository.watchUrlExists(existingUrl) } returns
+            every { resourceRepository.watchUrlExists(URL) } returns
                     hotFlowOf(true)
         }
 
         @Test
         internal fun `when execute then emits true`() = runBlocking {
-            sut.execute(existingUrl).test {
+            sut.execute(URL).test {
                 assertThat(expectItem()).isTrue()
                 expectNoEvents()
             }
@@ -54,17 +54,16 @@ internal class WatchResourceExistsTest {
 
     @Nested
     inner class `given resource created after executing` {
-        private val notExistingUrl = "http://example.com/article"
         private val resourceExists = hotFlowOf(false)
 
         init {
-            every { resourceRepository.watchUrlExists(notExistingUrl) } returns
+            every { resourceRepository.watchUrlExists(URL) } returns
                     resourceExists
         }
 
         @Test
         internal fun `when execute then emits false then true`() = runBlocking {
-            sut.execute(notExistingUrl).test {
+            sut.execute(URL).test {
                 assertThat(expectItem()).isFalse()
                 resourceExists.tryEmit(true)
                 assertThat(expectItem()).isTrue()
