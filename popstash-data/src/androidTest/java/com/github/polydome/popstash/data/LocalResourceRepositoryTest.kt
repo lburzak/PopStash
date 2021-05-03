@@ -28,8 +28,7 @@ internal class LocalResourceRepositoryTest {
     }
 
     @Test
-    // TODO: Rename
-    internal fun givenResource_whenInsert_thenEntityIsInDatabase() = runBlocking {
+    internal fun givenResourceNotInDB_whenInsert_thenEntityIsInDatabase() = runBlocking {
         sut.insertOne(NOT_EXISTING_RESOURCE)
 
         val entityInDatabase = db.resourceDao().findOneByUrl(NOT_EXISTING_RESOURCE.url)
