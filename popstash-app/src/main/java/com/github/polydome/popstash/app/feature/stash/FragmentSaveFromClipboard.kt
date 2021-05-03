@@ -28,4 +28,9 @@ class FragmentSaveFromClipboard : Fragment() {
                     it.viewModel = viewModel
                 }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateVisibleUrl()
+    }
 }

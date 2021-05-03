@@ -27,4 +27,8 @@ class SaveFromClipboardViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateVisibleUrl() {
+        _urlInClipboard.postValue(clipboard.getText())
+    }
 }
