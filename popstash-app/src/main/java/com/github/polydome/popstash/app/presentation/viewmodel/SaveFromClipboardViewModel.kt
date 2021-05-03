@@ -32,6 +32,8 @@ class SaveFromClipboardViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 saveResource.execute(url)
             }
+
+            _shouldDisplayDialog.postValue(false)
         }
     }
 
