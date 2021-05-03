@@ -23,9 +23,10 @@
             android:scaleType="center"
             android:contentDescription="@string/clipboard_icon"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/dialog_title"
-            style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+            android:textColor="@android:color/primary_text_light"
+            android:textStyle="bold"
             android:text="@string/save_link_from_clipboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +35,7 @@
             app:layout_constraintBottom_toTopOf="@id/link_url"
             app:layout_constraintVertical_chainStyle="packed"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/link_url"
             tools:text="http://example.com/articles/article-slug-one"
             android:ellipsize="middle"
