@@ -31,6 +31,6 @@ class FragmentSaveFromClipboard : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateVisibleUrl()
+        viewModel.checkClipboardForUrl()
     }
 }

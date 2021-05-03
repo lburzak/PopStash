@@ -27,7 +27,6 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/save_from_clipboard_fragment"
             android:name="com.github.polydome.popstash.app.feature.stash.FragmentSaveFromClipboard"
-            android:visibility="@{viewModel.isUrlInClipboard() ? View.VISIBLE : View.GONE}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
