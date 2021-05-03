@@ -11,7 +11,7 @@
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:visibility="@{viewModel.isUrlInClipboard() ? View.VISIBLE : View.GONE}"
+        android:visibility="@{viewModel.shouldDisplayDialog ? View.VISIBLE : View.GONE}"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         tools:layout_gravity="bottom"

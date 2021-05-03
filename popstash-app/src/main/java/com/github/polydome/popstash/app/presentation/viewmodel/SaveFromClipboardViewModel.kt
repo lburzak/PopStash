@@ -19,16 +19,16 @@ class SaveFromClipboardViewModel @Inject constructor(
         private val clipboard: Clipboard,
         private val patternMatcher: PatternMatcher
 ) : ViewModel() {
-    private val _isUrlInClipboard = MutableLiveData<Boolean>()
+    private val _shouldDisplayDialog = MutableLiveData<Boolean>()
     private val _urlInClipboard = MutableLiveData(clipboard.getText())
 
-    val isUrlInClipboard: LiveData<Boolean> = _isUrlInClipboard
-    val urlInClipboard = _urlInClipboard
+    val shouldDisplayDialog: LiveData<Boolean> = _shouldDisplayDialog
+    val urlInClipboard: LiveData<String> = _urlInClipboard
 
     fun saveUrlFromClipboard() {
-        viewModelScope.launch {
-            val url = clipboard.getText()
+        val url = clipboard.getText()
 
+        viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 saveResource.execute(url)
             }
@@ -39,18 +39,13 @@ class SaveFromClipboardViewModel @Inject constructor(
         val clipboardContent = clipboard.getText()
         val isUrlInClipboard = patternMatcher.matchUrl(clipboardContent)
 
-        urlInClipboard.postValue(clipboardContent)
-
-        if (isUrlInClipboard) {
-            viewModelScope.launch {
-                val urlAlreadySaved = checkResourceExists.execute(clipboardContent)
-
-                withContext(Dispatchers.Main) {
-                    _isUrlInClipboard.postValue(!urlAlreadySaved)
-                }
+        viewModelScope.launch {
+            val urlAlreadyExists = withContext(Dispatchers.IO) {
+                checkResourceExists.execute(clipboardContent)
             }
-        } else {
-            _isUrlInClipboard.postValue(false)
+
+            _urlInClipboard.postValue(clipboardContent)
+            _shouldDisplayDialog.postValue(isUrlInClipboard && !urlAlreadyExists)
         }
     }
 }
