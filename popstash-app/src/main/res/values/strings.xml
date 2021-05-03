@@ -2,4 +2,7 @@
 <resources>
     <string name="app_name">PopStash</string>
     <string name="save_resource">Save resource</string>
+    <string name="clipboard_icon">Clipboard icon</string>
+    <string name="save_link_from_clipboard">Save link from clipboard</string>
+    <string name="link_add">Add</string>
 </resources>
