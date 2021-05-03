@@ -56,7 +56,7 @@
 
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:text="@string/link_add"
+            android:text="@string/link_save"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:insetTop="0dp"
