@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface ResourceRepository {
     suspend fun insertOne(resource: Resource)
     fun watchAllUrls(): Flow<List<String>>
+    fun watchUrlExists(url: String): Flow<Boolean>
 }
