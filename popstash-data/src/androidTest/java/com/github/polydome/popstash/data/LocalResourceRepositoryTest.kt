@@ -11,6 +11,11 @@ import org.junit.Before
 import org.junit.Test
 
 internal class LocalResourceRepositoryTest {
+    companion object {
+        val EXISTING_RESOURCE = Resource(url = "http://example.com/article")
+        val NOT_EXISTING_RESOURCE = Resource(url =  "http://example.com/second-article")
+    }
+
     private lateinit var db: AppDatabase
     private lateinit var sut: LocalResourceRepository
 
@@ -18,68 +23,56 @@ internal class LocalResourceRepositoryTest {
     fun setUp() {
         db = createInMemoryDatabase()
         sut = LocalResourceRepository(db.resourceDao())
+
+        db.resourceDao().insertOne(EXISTING_RESOURCE.toEntity())
     }
 
     @Test
+    // TODO: Rename
     internal fun givenResource_whenInsert_thenEntityIsInDatabase() = runBlocking {
-        val resource = Resource(
-                url = "http://example.com/article"
-        )
+        sut.insertOne(NOT_EXISTING_RESOURCE)
 
-        sut.insertOne(resource)
-
-        val entityInDatabase = db.resourceDao().findOneByUrl(resource.url)
+        val entityInDatabase = db.resourceDao().findOneByUrl(NOT_EXISTING_RESOURCE.url)
 
         assertThat(entityInDatabase)
-                .isEqualTo(resource.toEntity())
+                .isEqualTo(NOT_EXISTING_RESOURCE.toEntity())
     }
 
     @Test
     internal fun givenOneResourceInDB_whenGetAllUrls_thenEmitsListWithOneUrl() = runBlocking {
-        val resource = Resource(
-                url = "http://example.com/article"
-        )
-
-        sut.insertOne(resource)
-
         db.resourceDao().getAllUrls().test {
-            assertThat(expectItem()).containsExactly(resource.url)
+            assertThat(expectItem()).containsExactly(EXISTING_RESOURCE.url)
             expectNoEvents()
         }
     }
 
     @Test
     internal fun givenAnotherResourceIsAdded_whenGetAllUrls_thenUpdatedListIsEmitted() = runBlocking {
-        val firstResource = Resource(url = "http://example.com/article")
-        val secondResource = Resource(url =  "http://example.com/second-article")
-
-        sut.insertOne(firstResource)
-
         db.resourceDao().getAllUrls().test {
-            assertThat(expectItem()).containsExactly(firstResource.url)
-            sut.insertOne(secondResource)
-            assertThat(expectItem()).containsExactly(firstResource.url, secondResource.url)
+            assertThat(expectItem()).containsExactly(EXISTING_RESOURCE.url)
+
+            sut.insertOne(NOT_EXISTING_RESOURCE)
+            assertThat(expectItem()).containsExactly(
+                    EXISTING_RESOURCE.url,
+                    NOT_EXISTING_RESOURCE.url
+            )
+
             expectNoEvents()
         }
     }
 
     @Test
     fun givenResourceNotExists_whenWatchUrlExists_thenEmitsFalse() = runBlocking {
-        val url = "http://example.com"
-
-        sut.watchUrlExists(url).test {
+        sut.watchUrlExists(NOT_EXISTING_RESOURCE.url).test {
             assertThat(expectItem()).isFalse()
         }
     }
 
     @Test
     fun givenResourceInserted_whenWatchUrlExists_thenEmitsFalseThenTrue() = runBlocking {
-        val url = "http://example.com"
-        val resource = Resource(url = url)
-
-        sut.watchUrlExists(url).test {
+        sut.watchUrlExists(NOT_EXISTING_RESOURCE.url).test {
             assertThat(expectItem()).isFalse()
-            db.resourceDao().insertOne(resource.toEntity())
+            db.resourceDao().insertOne(NOT_EXISTING_RESOURCE.toEntity())
             assertThat(expectItem()).isTrue()
         }
     }
