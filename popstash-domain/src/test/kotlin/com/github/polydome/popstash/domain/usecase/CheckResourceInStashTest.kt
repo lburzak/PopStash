@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-internal class CheckResourceExistsTest {
+internal class CheckResourceInStashTest {
     companion object {
         val URL = "http://example.com"
     }
 
     private val resourceRepository = mockk<ResourceRepository>()
-    private val sut: CheckResourceExists = CheckResourceExists(resourceRepository)
+    private val sut: CheckResourceInStash = CheckResourceInStash(resourceRepository)
 
     @Nested
     inner class `given resource not exists` {
