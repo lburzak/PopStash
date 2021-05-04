@@ -1,14 +1,13 @@
 package com.github.polydome.popstash.app.feature.stash
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import com.github.polydome.popstash.app.databinding.FragmentSaveFromClipboardBinding
 import com.github.polydome.popstash.app.di.scope.BoundViewModel
 import com.github.polydome.popstash.app.presentation.viewmodel.SaveFromClipboardViewModel
@@ -32,30 +31,7 @@ class SaveFromClipboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val rootView: CoordinatorLayout = binding.saveFromClipboardRoot
-        val contentView: CardView = binding.saveFromClipboardContent
-
-        val dialogParams: CoordinatorLayout.LayoutParams =
-                contentView.layoutParams as CoordinatorLayout.LayoutParams
-
-        val behavior = SwipeDismissBehavior<CardView>().apply {
-            setSwipeDirection(SwipeDismissBehavior.SWIPE_DIRECTION_START_TO_END)
-            listener = object: SwipeDismissBehavior.OnDismissListener {
-                override fun onDismiss(view: View?) {
-
-                }
-
-                override fun onDragStateChanged(state: Int) {
-
-                }
-            }
-        }
-
-        dialogParams.behavior = behavior
-
-        binding.saveFromClipboardContent.setOnTouchListener { view, event ->
-            behavior.onTouchEvent(rootView, contentView, event)
-        }
+        binding.saveFromClipboardContent.applySwipeToDismiss()
     }
 
     override fun onResume() {
@@ -69,5 +45,27 @@ class SaveFromClipboardFragment : Fragment() {
                     it.lifecycleOwner = this
                     it.viewModel = viewModel
                 }
+    }
+
+    private fun <T: View> T.applySwipeToDismiss() {
+        val dismissBehavior = SwipeDismissBehavior<T>().apply {
+            setSwipeDirection(SwipeDismissBehavior.SWIPE_DIRECTION_START_TO_END)
+        }
+
+        this.applyTouchBehavior(dismissBehavior)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun <T: View> T.applyTouchBehavior(behavior: CoordinatorLayout.Behavior<T>) {
+        val parent = this.parent as CoordinatorLayout
+
+        val dialogParams: CoordinatorLayout.LayoutParams =
+                this.layoutParams as CoordinatorLayout.LayoutParams
+
+        dialogParams.behavior = behavior
+
+        this.setOnTouchListener { _, event ->
+            behavior.onTouchEvent(parent, this, event)
+        }
     }
 }

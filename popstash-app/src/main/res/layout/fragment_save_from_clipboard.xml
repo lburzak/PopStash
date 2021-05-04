@@ -12,7 +12,6 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/save_from_clipboard_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="@{viewModel.shouldDisplayDialog ? View.VISIBLE : View.GONE}"
