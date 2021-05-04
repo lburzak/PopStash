@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.github.polydome.popstash.app.databinding.FragmentSaveFromClipboardBinding
-import com.github.polydome.popstash.app.di.scope.BoundViewModel
+import com.github.polydome.popstash.app.di.qualifier.BoundViewModel
 import com.github.polydome.popstash.app.presentation.viewmodel.SaveFromClipboardViewModel
 import com.google.android.material.behavior.SwipeDismissBehavior
 import dagger.hilt.android.AndroidEntryPoint

@@ -2,7 +2,7 @@ package com.github.polydome.popstash.app.feature.stash
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.github.polydome.popstash.app.di.scope.BoundViewModel
+import com.github.polydome.popstash.app.di.qualifier.BoundViewModel
 import com.github.polydome.popstash.app.presentation.viewmodel.StashViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect

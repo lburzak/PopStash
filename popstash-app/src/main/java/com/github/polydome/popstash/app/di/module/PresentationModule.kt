@@ -1,7 +1,7 @@
 package com.github.polydome.popstash.app.di.module
 
 import androidx.lifecycle.ViewModelProvider
-import com.github.polydome.popstash.app.di.scope.BoundViewModel
+import com.github.polydome.popstash.app.di.qualifier.BoundViewModel
 import com.github.polydome.popstash.app.presentation.viewmodel.SaveFromClipboardViewModel
 import com.github.polydome.popstash.app.presentation.viewmodel.StashViewModel
 import dagger.Module
