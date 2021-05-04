@@ -9,12 +9,8 @@ import com.github.polydome.popstash.app.presentation.service.PatternMatcher
 import com.github.polydome.popstash.domain.usecase.SaveResource
 import com.github.polydome.popstash.domain.usecase.WatchResourceExists
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SaveFromClipboardViewModel @Inject constructor(
@@ -23,6 +19,8 @@ class SaveFromClipboardViewModel @Inject constructor(
         private val clipboard: Clipboard,
         private val patternMatcher: PatternMatcher
 ) : ViewModel() {
+    private val commands = MutableSharedFlow<Command>()
+
     private val isUrlInClipboard = clipboard.contents()
             .map(patternMatcher::matchUrl)
 
@@ -41,13 +39,19 @@ class SaveFromClipboardViewModel @Inject constructor(
             urlsFromClipboard
                     .asLiveData()
 
-    fun saveUrlFromClipboard() {
-        val url = clipboard.getText() ?: return
+    init {
+        commands.filter { command -> command == Command.SAVE }
+                .flatMapLatest { urlsFromClipboard }
+                .map(saveResource::execute)
+                .flowOn(Dispatchers.IO)
+                .launchIn(viewModelScope)
+    }
 
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                saveResource.execute(url)
-            }
-        }
+    fun saveUrlFromClipboard() {
+        viewModelScope.launch { commands.emit(Command.SAVE) }
+    }
+
+    enum class Command {
+        SAVE
     }
 }

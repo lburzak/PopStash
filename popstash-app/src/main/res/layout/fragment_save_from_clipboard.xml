@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
+        <import type="com.github.polydome.popstash.app.presentation.viewmodel.SaveFromClipboardViewModel.Command"/>
 
         <variable
             name="viewModel"
@@ -72,7 +73,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/TextButton.NoInset"
-                    android:onClick="@{() -> viewModel.saveUrlFromClipboard()}"
+                    android:onClick="@{() -> viewModel.command(Command.SAVE)}"
                     android:text="@string/link_save"
                     android:layout_width="0dp"
                     android:layout_height="0dp"

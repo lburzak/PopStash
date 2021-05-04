@@ -10,7 +10,7 @@ import javax.inject.Inject
 class WindowEventBus @Inject constructor(
         @ActivityScoped private val windowScope: CoroutineScope,
 ) : WindowEventEmitter, WindowEventListener {
-    private val _focusChanges = MutableSharedFlow<Boolean>()
+    private val _focusChanges = MutableSharedFlow<Boolean>(replay = 1)
 
     override val focusChanges: Flow<Boolean> =
             _focusChanges
