@@ -2,16 +2,21 @@ package com.github.polydome.popstash.app.platform.service
 
 import android.content.ClipboardManager
 import com.github.polydome.popstash.app.presentation.service.Clipboard
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class AndroidClipboard @Inject constructor(
         private val clipboardManager: ClipboardManager,
         private val windowEventEmitter: WindowEventEmitter,
 ) : Clipboard {
+    private val clipboardChanges = MutableSharedFlow<Boolean>()
+
+    init {
+        clipboardManager.addPrimaryClipChangedListener {
+            clipboardChanges.tryEmit(true)
+        }
+    }
+
     override fun getText(): String? {
         if (!clipboardManager.hasPrimaryClip()) {
             return null
@@ -21,7 +26,7 @@ class AndroidClipboard @Inject constructor(
     }
 
     override fun contents(): Flow<String> =
-            windowEventEmitter.focusChanges
+            merge(windowEventEmitter.focusChanges, clipboardChanges)
                     .filter { hasFocus -> hasFocus }
                     .map { getText() }
                     .filterNotNull()
