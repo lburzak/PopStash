@@ -25,8 +25,7 @@ class MainActivity : AppCompatActivity() {
     @BoundViewModel
     lateinit var stashViewModel: StashViewModel
 
-    private val stashRecyclerView: RecyclerView
-        get() = findViewById(R.id.stash_recycler_view)
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupContentView() {
-        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
                 .also {
                     it.viewModel = stashViewModel
                     it.lifecycleOwner = this
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupStashList() {
-        stashRecyclerView.apply {
+        binding.stashRecyclerView.apply {
             adapter = stashAdapter
             layoutManager = linearLayoutManager.apply {
                 orientation = LinearLayoutManager.VERTICAL
