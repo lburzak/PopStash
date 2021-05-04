@@ -20,13 +20,13 @@ class SaveFromClipboardViewModel @Inject constructor(
         private val patternMatcher: PatternMatcher
 ) : ViewModel() {
     private val _shouldDisplayDialog = MutableLiveData<Boolean>()
-    private val _urlInClipboard = MutableLiveData(clipboard.getText())
+    private val _urlInClipboard = MutableLiveData<String>()
 
     val shouldDisplayDialog: LiveData<Boolean> = _shouldDisplayDialog
     val urlInClipboard: LiveData<String> = _urlInClipboard
 
     fun saveUrlFromClipboard() {
-        val url = clipboard.getText()
+        val url = clipboard.getText() ?: return
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -38,7 +38,8 @@ class SaveFromClipboardViewModel @Inject constructor(
     }
 
     fun checkClipboardForUrl() {
-        val clipboardContent = clipboard.getText()
+        val clipboardContent = clipboard.getText() ?: return
+
         val isUrlInClipboard = patternMatcher.matchUrl(clipboardContent)
 
         viewModelScope.launch {

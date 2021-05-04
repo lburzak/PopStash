@@ -7,11 +7,15 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.polydome.popstash.app.platform.ViewModelFactory
+import com.github.polydome.popstash.app.platform.service.WindowEventBus
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.scopes.ActivityScoped
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 @Module
 @InstallIn(ActivityComponent::class)
@@ -34,7 +38,16 @@ object ActivityModule {
     @Provides
     fun viewModelProvider(
             activity: FragmentActivity,
-            viewModelFactory: ViewModelFactory
+            viewModelFactory: ViewModelFactory,
     ): ViewModelProvider =
             ViewModelProvider(activity, viewModelFactory)
+
+    @Provides
+    @ActivityScoped
+    fun windowEventBus(windowScope: CoroutineScope): WindowEventBus = WindowEventBus(windowScope)
+
+    @Provides
+    @ActivityScoped
+    fun windowScope(): CoroutineScope =
+            CoroutineScope(Dispatchers.Main)
 }
