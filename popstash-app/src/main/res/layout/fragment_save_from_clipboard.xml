@@ -12,12 +12,14 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/save_from_clipboard_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="@{viewModel.shouldDisplayDialog ? View.VISIBLE : View.GONE}"
         tools:layout_gravity="bottom">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/save_from_clipboard_content"
             android:layout_height="60dp"
             android:layout_width="match_parent"
             android:layout_margin="8dp"
