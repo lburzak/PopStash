@@ -1,35 +1,36 @@
 package com.github.polydome.popstash.app.presentation.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.github.polydome.popstash.app.presentation.service.Clipboard
 import com.github.polydome.popstash.app.presentation.service.PatternMatcher
-import com.github.polydome.popstash.domain.usecase.CheckResourceInStash
 import com.github.polydome.popstash.domain.usecase.SaveResource
 import com.github.polydome.popstash.domain.usecase.WatchResourceExists
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SaveFromClipboardViewModel @Inject constructor(
         private val saveResource: SaveResource,
-        private val checkResourceInStash: CheckResourceInStash,
         private val watchResourceExists: WatchResourceExists,
         private val clipboard: Clipboard,
         private val patternMatcher: PatternMatcher
 ) : ViewModel() {
-    private val _shouldDisplayDialog = MutableLiveData<Boolean>()
-    private val _urlInClipboard = MutableLiveData<String>()
-
     private val isUrlInClipboard = clipboard.contents()
-            .map { patternMatcher.matchUrl(it) }
+            .map(patternMatcher::matchUrl)
 
     private val urlsFromClipboard = clipboard.contents()
-            .filter { patternMatcher.matchUrl(it) }
+            .filter(patternMatcher::matchUrl)
 
     private val lastUrlExists = urlsFromClipboard
-            .flatMapLatest { url -> watchResourceExists.execute(url) }
+            .flatMapLatest(watchResourceExists::execute)
 
     val shouldDisplayDialog: LiveData<Boolean> =
             isUrlInClipboard
@@ -47,23 +48,6 @@ class SaveFromClipboardViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 saveResource.execute(url)
             }
-
-            _shouldDisplayDialog.postValue(false)
-        }
-    }
-
-    fun checkClipboardForUrl() {
-        val clipboardContent = clipboard.getText() ?: return
-
-        val isUrlInClipboard = patternMatcher.matchUrl(clipboardContent)
-
-        viewModelScope.launch {
-            val urlAlreadyExists = withContext(Dispatchers.IO) {
-                checkResourceInStash.execute(clipboardContent)
-            }
-
-            _urlInClipboard.postValue(clipboardContent)
-            _shouldDisplayDialog.postValue(isUrlInClipboard && !urlAlreadyExists)
         }
     }
 }

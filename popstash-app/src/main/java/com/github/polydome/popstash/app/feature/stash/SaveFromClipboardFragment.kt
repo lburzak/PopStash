@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.github.polydome.popstash.app.databinding.FragmentSaveFromClipboardBinding
@@ -32,11 +31,6 @@ class SaveFromClipboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.saveFromClipboardContent.applySwipeToDismiss()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.checkClipboardForUrl()
     }
 
     private fun createBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentSaveFromClipboardBinding {
