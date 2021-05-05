@@ -1,20 +1,15 @@
 package com.github.polydome.popstash.app.feature.stash
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintProperties
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.setMargins
-import androidx.core.view.updateLayoutParams
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.github.polydome.popstash.app.databinding.FragmentSaveFromClipboardBinding
 import com.github.polydome.popstash.app.di.qualifier.BoundViewModel
+import com.github.polydome.popstash.app.platform.view.DismissManager
 import com.github.polydome.popstash.app.presentation.viewmodel.SaveFromClipboardViewModel
-import com.google.android.material.behavior.SwipeDismissBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,24 +20,26 @@ class SaveFromClipboardFragment : Fragment() {
     lateinit var viewModel: SaveFromClipboardViewModel
 
     private lateinit var binding: FragmentSaveFromClipboardBinding
+    private lateinit var dismissManager: DismissManager<CardView>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = createBinding(inflater, container)
+
+        dismissManager = DismissManager.of(binding.saveFromClipboardContent)
+        dismissManager.enableSwipeToDismiss()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.saveFromClipboardContent.applySwipeToDismiss()
-        viewModel.shouldDisplayDialog.observe(viewLifecycleOwner) {
-            if (it.and(shouldRestore)) {
-                binding.saveFromClipboardContent.let {
-                    it.layoutParams = dialogParams
-                    it.alpha = 1.0f
+        viewModel.shouldDisplayDialog
+                .observe(viewLifecycleOwner) { shouldDisplayDialog ->
+                    if (shouldDisplayDialog && dismissManager.isDismissed)
+                        dismissManager.restore()
                 }
-            }
-        }
+
     }
 
     private fun createBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentSaveFromClipboardBinding {
@@ -51,42 +48,5 @@ class SaveFromClipboardFragment : Fragment() {
                     it.lifecycleOwner = this
                     it.viewModel = viewModel
                 }
-    }
-
-    private var shouldRestore = false
-    private lateinit var dialogParams: CoordinatorLayout.LayoutParams
-
-    private fun <T: View> T.applySwipeToDismiss() {
-        val dismissBehavior = SwipeDismissBehavior<T>().apply {
-            setSwipeDirection(SwipeDismissBehavior.SWIPE_DIRECTION_START_TO_END)
-        }
-
-        dialogParams = binding.saveFromClipboardContent.layoutParams as CoordinatorLayout.LayoutParams
-
-        dismissBehavior.listener = object : SwipeDismissBehavior.OnDismissListener {
-            override fun onDismiss(view: View?) {
-                shouldRestore = true
-            }
-
-            override fun onDragStateChanged(state: Int) {
-                Log.d("#j78", "state=$state, left=${view?.left}")
-            }
-        }
-
-        this.applyTouchBehavior(dismissBehavior)
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun <T: View> T.applyTouchBehavior(behavior: CoordinatorLayout.Behavior<T>) {
-        val parent = this.parent as CoordinatorLayout
-
-        val dialogParams: CoordinatorLayout.LayoutParams =
-                this.layoutParams as CoordinatorLayout.LayoutParams
-
-        dialogParams.behavior = behavior
-
-        this.setOnTouchListener { _, event ->
-            behavior.onTouchEvent(parent, this, event)
-        }
     }
 }
