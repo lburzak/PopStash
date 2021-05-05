@@ -9,6 +9,8 @@ java {
 }
 
 dependencies {
+    implementation project(':popstash-domain')
+
     implementation 'net.dankito.readability4j:readability4j:1.0.3'
     implementation 'javax.inject:javax.inject:1'
 
