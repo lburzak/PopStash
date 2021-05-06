@@ -2,8 +2,9 @@ package com.github.polydome.popstash.network
 
 import com.github.polydome.popstash.parser.service.DomainExtractor
 import java.net.URI
+import javax.inject.Inject
 
-class JavaDomainExtractor : DomainExtractor {
+class JavaDomainExtractor @Inject constructor() : DomainExtractor {
     override fun extractFromUrl(url: String): String? {
         val uri = URI(url)
         val domain: String = uri.host ?: return null
