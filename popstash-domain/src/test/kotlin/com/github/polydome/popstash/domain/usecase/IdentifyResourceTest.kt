@@ -7,6 +7,7 @@ import com.github.polydome.popstash.domain.usecase.IdentifyResource.Result
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -23,7 +24,7 @@ internal class IdentifyResourceTest {
         }
 
         @Test
-        fun `when execute then returns success site metadata`() {
+        fun `when execute then returns success site metadata`() = runBlocking {
             val result = sut.execute(URL)
 
             assertThat(result).isInstanceOf(Result.Success::class.java)
@@ -40,7 +41,7 @@ internal class IdentifyResourceTest {
         }
 
         @Test
-        internal fun `when execute then returns failure`() {
+        internal fun `when execute then returns failure`() = runBlocking {
             val result = sut.execute(URL)
 
             assertThat(result).isInstanceOf(Result.Failure::class.java)
