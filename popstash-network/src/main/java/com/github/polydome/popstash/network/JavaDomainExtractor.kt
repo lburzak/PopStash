@@ -6,7 +6,7 @@ import java.net.URI
 class JavaDomainExtractor : DomainExtractor {
     override fun extractFromUrl(url: String): String? {
         val uri = URI(url)
-        val domain = uri.host
+        val domain: String = uri.host ?: return null
 
         return if (domain.hasWWWPrefix()) domain.dropPrefix() else domain
     }
