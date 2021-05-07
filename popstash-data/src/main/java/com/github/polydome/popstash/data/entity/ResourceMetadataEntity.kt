@@ -1,10 +1,21 @@
 package com.github.polydome.popstash.data.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.github.polydome.popstash.domain.model.ResourceMetadata
 
-@Entity(tableName = "resource_metadata")
+@Entity(
+        tableName = "resource_metadata",
+        foreignKeys = [
+                ForeignKey(
+                        entity = ResourceEntity::class,
+                        parentColumns = ["url"],
+                        childColumns = ["url"],
+                        onDelete = ForeignKey.CASCADE
+                )
+        ]
+)
 data class ResourceMetadataEntity(
         @PrimaryKey
         val url: String,
