@@ -2,6 +2,7 @@ package com.github.polydome.popstash.data.repository
 
 import com.github.polydome.popstash.data.dao.ResourceDao
 import com.github.polydome.popstash.data.entity.toEntity
+import com.github.polydome.popstash.domain.exception.NoSuchResourceException
 import com.github.polydome.popstash.domain.model.Resource
 import com.github.polydome.popstash.domain.repository.ResourceRepository
 import kotlinx.coroutines.flow.*
@@ -22,8 +23,8 @@ class LocalResourceRepository @Inject constructor(private val resourceDao: Resou
             resourceDao.existsResourceByUrl(url)
 
     override suspend fun removeOne(url: String) {
-        val entity = resourceDao.findOneByUrl(url)
+        val entity = resourceDao.findOneByUrl(url) ?: throw NoSuchResourceException()
 
-        resourceDao.removeOne(entity!!)
+        resourceDao.removeOne(entity)
     }
 }
