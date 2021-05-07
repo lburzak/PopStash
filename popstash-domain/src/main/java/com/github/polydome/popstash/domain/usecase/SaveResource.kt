@@ -2,10 +2,19 @@ package com.github.polydome.popstash.domain.usecase
 
 import com.github.polydome.popstash.domain.model.Resource
 import com.github.polydome.popstash.domain.repository.ResourceRepository
+import com.github.polydome.popstash.domain.service.URLValidator
 import javax.inject.Inject
 
-class SaveResource @Inject constructor(private val resourceRepository: ResourceRepository) {
+class SaveResource @Inject constructor(
+        private val resourceRepository: ResourceRepository,
+        private val urlValidator: URLValidator,
+) {
     suspend fun execute(url: String): Result {
+        val isUrlValid = urlValidator.validateUrl(url)
+
+        if (!isUrlValid)
+            return Result.Failure(Error.URL_INVALID)
+
         val resourceExists = resourceRepository.existsResourceByUrl(url)
 
         if (resourceExists)
@@ -23,6 +32,7 @@ class SaveResource @Inject constructor(private val resourceRepository: ResourceR
     }
 
     enum class Error {
-        RESOURCE_ALREADY_EXISTS
+        RESOURCE_ALREADY_EXISTS,
+        URL_INVALID
     }
 }
