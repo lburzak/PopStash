@@ -17,7 +17,7 @@ class LocalResourceRepository @Inject constructor(private val resourceDao: Resou
             resourceDao.getAllUrls()
 
     override fun watchUrlExists(url: String): Flow<Boolean> =
-            resourceDao.checkUrlExists(url)
+            resourceDao.watchExistsResourceByUrl(url)
 
     override suspend fun existsResourceByUrl(url: String): Boolean =
             resourceDao.existsResourceByUrl(url)

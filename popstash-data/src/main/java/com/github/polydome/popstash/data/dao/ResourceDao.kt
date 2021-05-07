@@ -18,9 +18,8 @@ interface ResourceDao {
     @Query("select url from resource")
     fun getAllUrls(): Flow<List<String>>
 
-    // TODO: Rename to match convention
     @Query("select exists (select * from resource where resource.url = :url)")
-    fun checkUrlExists(url: String): Flow<Boolean>
+    fun watchExistsResourceByUrl(url: String): Flow<Boolean>
 
     @Query("select exists (select * from resource where resource.url = :url)")
     suspend fun existsResourceByUrl(url: String): Boolean
