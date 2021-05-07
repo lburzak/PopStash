@@ -2,9 +2,11 @@ package com.github.polydome.popstash.domain.usecase
 
 import com.github.polydome.popstash.domain.model.ParsedResource
 import com.github.polydome.popstash.domain.model.ResourceMetadata
+import com.github.polydome.popstash.domain.service.MetadataCache
 import com.github.polydome.popstash.domain.service.ParserService
 import com.github.polydome.popstash.domain.usecase.IdentifyResource.Result
 import com.google.common.truth.Truth.assertThat
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -15,11 +17,13 @@ import org.junit.jupiter.api.TestInstance
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 internal class IdentifyResourceTest {
     private val parserService: ParserService = mockk()
-    private val sut = IdentifyResource(parserService)
+    private val metadataCache: MetadataCache = mockk()
+    private val sut = IdentifyResource(parserService, metadataCache)
 
     @Nested
-    inner class `given url referencing parseable site` {
+    inner class `given uncached url referencing parseable site` {
         init {
+            coEvery { metadataCache.get(URL) } returns null
             every { parserService.parse(URL) } returns PARSED_RESOURCE
         }
 
@@ -35,8 +39,9 @@ internal class IdentifyResourceTest {
     }
 
     @Nested
-    inner class `given url referencing unparseable site` {
+    inner class `given uncached url referencing unparseable site` {
         init {
+            coEvery { metadataCache.get(URL) } returns null
             every { parserService.parse(URL) } returns null
         }
 
@@ -45,6 +50,23 @@ internal class IdentifyResourceTest {
             val result = sut.execute(URL)
 
             assertThat(result).isInstanceOf(Result.Failure::class.java)
+        }
+    }
+
+    @Nested
+    inner class `given cached url` {
+        init {
+            coEvery { metadataCache.get(URL) } returns PARSED_RESOURCE_METADATA
+        }
+
+        @Test
+        internal fun `when execute then returns cached metadata`() = runBlocking {
+            val result = sut.execute(URL)
+
+            assertThat(result).isInstanceOf(Result.Success::class.java)
+
+            if (result is Result.Success)
+                assertThat(result.metadata).isEqualTo(PARSED_RESOURCE_METADATA)
         }
     }
 
