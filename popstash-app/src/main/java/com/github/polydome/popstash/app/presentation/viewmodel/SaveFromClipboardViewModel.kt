@@ -31,6 +31,9 @@ class SaveFromClipboardViewModel @Inject constructor(
     private val lastUrlExists = urlsFromClipboard
             .flatMapLatest(watchResourceExists::execute)
 
+    private val urlCache = FlowCache.of(urlsFromClipboard)
+            .cacheIn(viewModelScope)
+
     val shouldDisplayDialog: LiveData<Boolean> =
             isUrlInClipboard
                     .combine(lastUrlExists) { isUrl, alreadyExists ->
@@ -44,7 +47,7 @@ class SaveFromClipboardViewModel @Inject constructor(
 
     init {
         commands.filter { command -> command == Command.SAVE }
-                .zip(urlsFromClipboard) { _, url -> url }
+                .map { urlCache.last }
                 .map(saveResource::execute)
                 .flowOn(Dispatchers.IO)
                 .launchIn(viewModelScope)
