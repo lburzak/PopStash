@@ -3,6 +3,7 @@ package com.github.polydome.popstash.app.platform
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.databinding.ActivityMainBinding
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var windowEventListener: WindowEventListener
+
+    @Inject
+    lateinit var itemTouchHelper: ItemTouchHelper
 
     private lateinit var binding: ActivityMainBinding
 
@@ -56,6 +60,7 @@ class MainActivity : AppCompatActivity() {
             layoutManager = linearLayoutManager.apply {
                 orientation = LinearLayoutManager.VERTICAL
             }
+            itemTouchHelper.attachToRecyclerView(this)
         }
     }
 }

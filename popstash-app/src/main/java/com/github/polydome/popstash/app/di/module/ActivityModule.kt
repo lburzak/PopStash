@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.polydome.popstash.app.feature.stash.SwipeToDelete
 import com.github.polydome.popstash.app.platform.ViewModelFactory
 import com.github.polydome.popstash.app.platform.service.WindowEventBus
 import dagger.Module
@@ -20,6 +22,9 @@ import kotlinx.coroutines.Dispatchers
 @Module
 @InstallIn(ActivityComponent::class)
 object ActivityModule {
+
+    //TODO Remove unnecessary returns
+
     @Provides
     fun lifecycleOwner(activity: FragmentActivity): LifecycleOwner {
         return activity
@@ -33,6 +38,11 @@ object ActivityModule {
     @Provides
     fun linearLayoutManager(@ActivityContext context: Context): LinearLayoutManager {
         return LinearLayoutManager(context)
+    }
+
+    @Provides
+    fun resourceItemTouchHelper(swipeToDelete: SwipeToDelete): ItemTouchHelper {
+        return ItemTouchHelper(swipeToDelete)
     }
 
     @Provides

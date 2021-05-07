@@ -2,12 +2,13 @@ package com.github.polydome.popstash.app.feature.stash
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import javax.inject.Inject
 
-class SwipeToDelete : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+class SwipeToDelete @Inject constructor() : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         require(viewHolder is ResourceViewHolder)
 
-        viewHolder.delete()
+        viewHolder.onSwipe()
     }
 
     override fun onMove(

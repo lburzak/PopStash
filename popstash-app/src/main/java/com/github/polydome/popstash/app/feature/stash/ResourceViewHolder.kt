@@ -11,12 +11,13 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class ResourceViewHolder(itemView: View, private val viewModel: ResourceViewModel) : RecyclerView.ViewHolder(itemView) {
+    // TODO: Rename to match convention
     fun showUrl(url: String) {
         viewModel.showUrl(url)
     }
 
-    fun delete() {
-        TODO("Not yet implemented")
+    fun onSwipe() {
+        viewModel.deleteCurrentResource()
     }
 
     class Factory @Inject constructor(private val layoutInflater: LayoutInflater,

@@ -1,8 +1,9 @@
 package com.github.polydome.popstash.domain.usecase
 
 import com.github.polydome.popstash.domain.repository.ResourceRepository
+import javax.inject.Inject
 
-class DeleteResource(private val resourceRepository: ResourceRepository) {
+class DeleteResource @Inject constructor(private val resourceRepository: ResourceRepository) {
     suspend fun execute(url: String): Result {
         val resourceExists = resourceRepository.existsResourceByUrl(url)
 
