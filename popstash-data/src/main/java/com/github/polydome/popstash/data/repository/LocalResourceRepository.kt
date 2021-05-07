@@ -24,6 +24,6 @@ class LocalResourceRepository @Inject constructor(private val resourceDao: Resou
     override suspend fun removeOne(url: String) {
         val entity = resourceDao.findOneByUrl(url)
 
-        resourceDao.removeOne(entity)
+        resourceDao.removeOne(entity!!)
     }
 }
