@@ -18,10 +18,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
     @Provides
-    fun resourceRepository(localResourceRepository: LocalResourceRepository): ResourceRepository =
-            localResourceRepository
-
-    @Provides
     fun resourceDao(appDatabase: AppDatabase): ResourceDao =
             appDatabase.resourceDao()
 
