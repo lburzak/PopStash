@@ -15,6 +15,10 @@ class ResourceViewHolder(itemView: View, private val viewModel: ResourceViewMode
         viewModel.showUrl(url)
     }
 
+    fun delete() {
+        TODO("Not yet implemented")
+    }
+
     class Factory @Inject constructor(private val layoutInflater: LayoutInflater,
                                       private val lifecycleOwner: LifecycleOwner,
                                       private val viewModelProvider: Provider<ResourceViewModel>) {
