@@ -20,4 +20,10 @@ class LocalResourceRepository @Inject constructor(private val resourceDao: Resou
 
     override suspend fun existsResourceByUrl(url: String): Boolean =
             resourceDao.existsResourceByUrl(url)
+
+    override suspend fun removeOne(url: String) {
+        val entity = resourceDao.findOneByUrl(url)
+
+        resourceDao.removeOne(entity)
+    }
 }

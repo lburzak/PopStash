@@ -4,9 +4,12 @@ import app.cash.turbine.test
 import com.github.polydome.popstash.data.entity.toEntity
 import com.github.polydome.popstash.data.repository.LocalResourceRepository
 import com.github.polydome.popstash.data.test.createInMemoryDatabase
+import com.github.polydome.popstash.domain.exception.NoSuchResourceException
 import com.github.polydome.popstash.domain.model.Resource
+import com.github.polydome.popstash.domain.model.ResourceMetadata
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Test
 
@@ -14,6 +17,12 @@ internal class LocalResourceRepositoryTest {
     companion object {
         val EXISTING_RESOURCE = Resource(url = "http://example.com/article")
         val NOT_EXISTING_RESOURCE = Resource(url =  "http://example.com/second-article")
+        val EXISTING_METADATA = ResourceMetadata(
+                title = "Final Destination",
+                summary = "This is article summary.",
+                site = "example.com",
+                author = "Mikhail Berlioz"
+        )
     }
 
     private lateinit var db: AppDatabase
@@ -25,6 +34,9 @@ internal class LocalResourceRepositoryTest {
         sut = LocalResourceRepository(db.resourceDao())
 
         db.resourceDao().insertOne(EXISTING_RESOURCE.toEntity())
+        runBlocking {
+            db.resourceMetadataDao().insertOne(EXISTING_METADATA.toEntity(EXISTING_RESOURCE.url))
+        }
     }
 
     @Test
@@ -86,5 +98,28 @@ internal class LocalResourceRepositoryTest {
     fun givenResourceExists_whenExistsResourceById_thenReturnsFalse() = runBlocking {
         val result = sut.existsResourceByUrl(EXISTING_RESOURCE.url)
         assertThat(result).isTrue()
+    }
+
+    @Test
+    fun givenResourceExists_whenRemoveOne_thenRemovesEntity() = runBlocking {
+        sut.removeOne(EXISTING_RESOURCE.url)
+
+        val resourceExists = db.resourceDao().existsResourceByUrl(EXISTING_RESOURCE.url)
+        assertThat(resourceExists).isFalse()
+    }
+
+    @Test
+    fun givenResourceExists_whenRemoveOne_thenClearsResourceMetadata(): Unit = runBlocking {
+        sut.removeOne(EXISTING_RESOURCE.url)
+
+        val metadataExists = db.resourceMetadataDao().existsByUrl(EXISTING_RESOURCE.url)
+        assertThat(metadataExists).isFalse()
+    }
+
+    @Test
+    fun givenResourceNotExists_whenRemoveOne_thenThrowsException() {
+        assertThrows(NoSuchResourceException::class.java) {
+            runBlocking { sut.removeOne(NOT_EXISTING_RESOURCE.url) }
+        }
     }
 }
