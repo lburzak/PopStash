@@ -22,28 +22,21 @@ import kotlinx.coroutines.Dispatchers
 @Module
 @InstallIn(ActivityComponent::class)
 object ActivityModule {
-
-    //TODO Remove unnecessary returns
+    @Provides
+    fun lifecycleOwner(activity: FragmentActivity): LifecycleOwner =
+            activity
 
     @Provides
-    fun lifecycleOwner(activity: FragmentActivity): LifecycleOwner {
-        return activity
-    }
+    fun layoutInflater(@ActivityContext context: Context): LayoutInflater =
+            LayoutInflater.from(context)
 
     @Provides
-    fun layoutInflater(@ActivityContext context: Context): LayoutInflater {
-        return LayoutInflater.from(context)
-    }
+    fun linearLayoutManager(@ActivityContext context: Context): LinearLayoutManager =
+            LinearLayoutManager(context)
 
     @Provides
-    fun linearLayoutManager(@ActivityContext context: Context): LinearLayoutManager {
-        return LinearLayoutManager(context)
-    }
-
-    @Provides
-    fun resourceItemTouchHelper(swipeToDelete: SwipeToDelete): ItemTouchHelper {
-        return ItemTouchHelper(swipeToDelete)
-    }
+    fun resourceItemTouchHelper(swipeToDelete: SwipeToDelete): ItemTouchHelper =
+            ItemTouchHelper(swipeToDelete)
 
     @Provides
     fun viewModelProvider(
