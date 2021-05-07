@@ -6,9 +6,7 @@ import com.github.polydome.popstash.domain.service.MetadataCache
 import com.github.polydome.popstash.domain.service.ParserService
 import com.github.polydome.popstash.domain.usecase.IdentifyResource.Result
 import com.google.common.truth.Truth.assertThat
-import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -17,7 +15,7 @@ import org.junit.jupiter.api.TestInstance
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 internal class IdentifyResourceTest {
     private val parserService: ParserService = mockk()
-    private val metadataCache: MetadataCache = mockk()
+    private val metadataCache: MetadataCache = mockk(relaxUnitFun = true)
     private val sut = IdentifyResource(parserService, metadataCache)
 
     @Nested
@@ -35,6 +33,15 @@ internal class IdentifyResourceTest {
 
             if (result is Result.Success)
                 assertThat(result.metadata).isEqualTo(PARSED_RESOURCE_METADATA)
+        }
+
+        @Test
+        internal fun `when execute then puts metadata into a cache`() {
+            runBlocking {
+                sut.execute(URL)
+            }
+
+            coVerify(exactly = 1) { metadataCache.put(URL, PARSED_RESOURCE_METADATA) }
         }
     }
 

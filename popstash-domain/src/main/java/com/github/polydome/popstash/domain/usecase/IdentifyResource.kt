@@ -18,8 +18,14 @@ class IdentifyResource @Inject constructor(private val parserService: ParserServ
             parserService.parse(url)
         }
 
-        if (resource != null)
+        if (resource != null) {
+            withContext(Dispatchers.IO) {
+                metadataCache.put(url, resource.metadata)
+            }
+
             return Result.Success(resource.metadata)
+        }
+
 
         return Result.Failure
     }
