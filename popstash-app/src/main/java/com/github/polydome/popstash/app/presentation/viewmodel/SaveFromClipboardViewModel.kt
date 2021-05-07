@@ -25,25 +25,21 @@ class SaveFromClipboardViewModel @Inject constructor(
     private val isUrlInClipboard = clipboard.contents()
             .map(patternMatcher::matchUrl)
 
-    private val urlsFromClipboard = clipboard.contents()
+    private val url = clipboard.contents()
             .filter(patternMatcher::matchUrl)
 
-    private val lastUrlExists = urlsFromClipboard
+    private val urlAlreadySaved = url
             .flatMapLatest(watchResourceExists::execute)
 
-    private val urlCache = FlowCache.of(urlsFromClipboard)
+    private val urlCache = FlowCache.of(url)
             .cacheIn(viewModelScope)
 
     val shouldDisplayDialog: LiveData<Boolean> =
             isUrlInClipboard
-                    .combine(lastUrlExists) { isUrl, alreadyExists ->
-                        isUrl && !alreadyExists
-                    }
+                    .combine(urlAlreadySaved) { isUrl, alreadySaved -> isUrl && !alreadySaved }
                     .asLiveData()
 
-    val urlInClipboard: LiveData<String> =
-            urlsFromClipboard
-                    .asLiveData()
+    val urlInClipboard: LiveData<String> = url.asLiveData()
 
     init {
         commands.filter { command -> command == Command.SAVE }
