@@ -8,4 +8,5 @@ interface ResourceRepository {
     fun watchAllUrls(): Flow<List<String>>
     fun watchUrlExists(url: String): Flow<Boolean>
     suspend fun existsResourceByUrl(url: String): Boolean
+    suspend fun removeOne(url: String)
 }
