@@ -10,8 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ResourceDao {
     @Insert
-    // TODO: Make suspend
-    fun insertOne(resource: ResourceEntity)
+    suspend fun insertOne(resource: ResourceEntity)
 
     @Query("select * from resource where resource.url = :url")
     fun findOneByUrl(url: String): ResourceEntity?

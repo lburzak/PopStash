@@ -33,8 +33,8 @@ internal class LocalResourceRepositoryTest {
         db = createInMemoryDatabase()
         sut = LocalResourceRepository(db.resourceDao())
 
-        db.resourceDao().insertOne(EXISTING_RESOURCE.toEntity())
         runBlocking {
+            db.resourceDao().insertOne(EXISTING_RESOURCE.toEntity())
             db.resourceMetadataDao().insertOne(EXISTING_METADATA.toEntity(EXISTING_RESOURCE.url))
         }
     }
