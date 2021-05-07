@@ -11,8 +11,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class ResourceViewHolder(itemView: View, private val viewModel: ResourceViewModel) : RecyclerView.ViewHolder(itemView) {
-    // TODO: Rename to match convention
-    fun showUrl(url: String) {
+    fun onChangeUrl(url: String) {
         viewModel.showUrl(url)
     }
 

@@ -23,7 +23,7 @@ class StashAdapter @Inject constructor(private val viewHolderFactory: ResourceVi
 
 
     override fun onBindViewHolder(holder: ResourceViewHolder, position: Int) {
-        holder.showUrl(items[position])
+        holder.onChangeUrl(items[position])
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
