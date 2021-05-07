@@ -16,12 +16,10 @@ class ResourceViewModel @Inject constructor(
         private val deleteResource: DeleteResource
 ) : ViewModel() {
     private val _title = MutableLiveData<String>()
-    private val _url = MutableLiveData<String>()
+    private val _site = MutableLiveData<String>()
 
     val title: LiveData<String> = _title
-
-    // TODO: Rename to `site`
-    val url: LiveData<String> = _url
+    val site: LiveData<String> = _site
 
     private var resourceUrl: String? = null
 
@@ -41,7 +39,7 @@ class ResourceViewModel @Inject constructor(
             }
 
             _title.postValue(title)
-            _url.postValue(site)
+            _site.postValue(site)
         }
     }
 
