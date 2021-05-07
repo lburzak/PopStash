@@ -5,8 +5,9 @@ import com.github.polydome.popstash.data.entity.toEntity
 import com.github.polydome.popstash.data.entity.toModel
 import com.github.polydome.popstash.domain.model.ResourceMetadata
 import com.github.polydome.popstash.domain.service.MetadataCache
+import javax.inject.Inject
 
-class DatabaseMetadataCache(private val resourceMetadataDao: ResourceMetadataDao) : MetadataCache {
+class DatabaseMetadataCache @Inject constructor(private val resourceMetadataDao: ResourceMetadataDao) : MetadataCache {
     override suspend fun put(url: String, metadata: ResourceMetadata) {
         val metadataExists = resourceMetadataDao.existsByUrl(url)
         val newEntity = metadata.toEntity(url)

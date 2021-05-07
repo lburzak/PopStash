@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.github.polydome.popstash.data.AppDatabase
 import com.github.polydome.popstash.data.dao.ResourceDao
+import com.github.polydome.popstash.data.dao.ResourceMetadataDao
 import com.github.polydome.popstash.data.repository.LocalResourceRepository
 import com.github.polydome.popstash.domain.repository.ResourceRepository
 import dagger.Module
@@ -23,6 +24,10 @@ object DatabaseModule {
     @Provides
     fun resourceDao(appDatabase: AppDatabase): ResourceDao =
             appDatabase.resourceDao()
+
+    @Provides
+    fun resourceMetadataDao(appDatabase: AppDatabase): ResourceMetadataDao =
+            appDatabase.resourceMetadataDao()
 
     @Provides
     @Singleton
