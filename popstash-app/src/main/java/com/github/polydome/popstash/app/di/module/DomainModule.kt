@@ -1,10 +1,12 @@
 package com.github.polydome.popstash.app.di.module
 
+import com.github.polydome.popstash.app.platform.service.AndroidPatternMatcher
 import com.github.polydome.popstash.data.repository.DatabaseMetadataCache
 import com.github.polydome.popstash.data.repository.LocalResourceRepository
 import com.github.polydome.popstash.domain.repository.ResourceRepository
 import com.github.polydome.popstash.domain.service.MetadataCache
 import com.github.polydome.popstash.domain.service.ResourceParser
+import com.github.polydome.popstash.domain.service.URLValidator
 import com.github.polydome.popstash.parser.readability.ReadabilityParser
 import dagger.Binds
 import dagger.Module
@@ -23,4 +25,7 @@ abstract class DomainModule {
 
     @Binds
     abstract fun metadataCache(databaseMetadataCache: DatabaseMetadataCache): MetadataCache
+
+    @Binds
+    abstract fun urlValidator(androidPatternMatcher: AndroidPatternMatcher): URLValidator
 }
