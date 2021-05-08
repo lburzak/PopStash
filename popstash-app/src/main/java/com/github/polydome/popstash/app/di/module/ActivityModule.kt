@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.polydome.popstash.app.feature.stash.SwipeToDelete
+import com.github.polydome.popstash.app.platform.view.ItemSwipeCallback
 import com.github.polydome.popstash.app.platform.ViewModelFactory
 import com.github.polydome.popstash.app.platform.service.WindowEventBus
 import dagger.Module
@@ -35,8 +35,8 @@ object ActivityModule {
             LinearLayoutManager(context)
 
     @Provides
-    fun resourceItemTouchHelper(swipeToDelete: SwipeToDelete): ItemTouchHelper =
-            ItemTouchHelper(swipeToDelete)
+    fun resourceItemTouchHelper(itemSwipeCallback: ItemSwipeCallback): ItemTouchHelper =
+            ItemTouchHelper(itemSwipeCallback)
 
     @Provides
     fun viewModelProvider(

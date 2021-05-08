@@ -6,16 +6,17 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.github.polydome.popstash.app.databinding.RowResourceBinding
+import com.github.polydome.popstash.app.platform.view.Swipeable
 import com.github.polydome.popstash.app.presentation.viewmodel.ResourceViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 
-class ResourceViewHolder(itemView: View, private val viewModel: ResourceViewModel) : RecyclerView.ViewHolder(itemView) {
+class ResourceViewHolder(itemView: View, private val viewModel: ResourceViewModel) : RecyclerView.ViewHolder(itemView), Swipeable {
     fun onChangeUrl(url: String) {
         viewModel.showUrl(url)
     }
 
-    fun onSwipe() {
+    override fun onSwiped() {
         viewModel.deleteCurrentResource()
     }
 
