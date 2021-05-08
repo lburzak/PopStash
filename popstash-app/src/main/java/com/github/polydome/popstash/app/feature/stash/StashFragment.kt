@@ -13,21 +13,12 @@ import com.github.polydome.popstash.app.presentation.viewmodel.StashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
-class StashFragment : Fragment() {
-    @Inject
-    lateinit var stashAdapter: StashAdapter
-
-    @Inject
-    lateinit var linearLayoutManager: LinearLayoutManager
-
-    @Inject
-    @BoundViewModel
-    lateinit var stashViewModel: StashViewModel
-
-    @Inject
-    lateinit var itemTouchHelper: ItemTouchHelper
-
+class StashFragment @Inject constructor(
+        private val stashAdapter: StashAdapter,
+        private val linearLayoutManager: LinearLayoutManager,
+        @BoundViewModel private val stashViewModel: StashViewModel,
+        private val itemTouchHelper: ItemTouchHelper,
+) : Fragment() {
     lateinit var binding: FragmentStashBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
