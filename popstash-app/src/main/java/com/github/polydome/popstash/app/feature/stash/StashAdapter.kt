@@ -1,44 +1,54 @@
 package com.github.polydome.popstash.app.feature.stash
 
 import android.view.ViewGroup
+import androidx.annotation.MainThread
 import androidx.recyclerview.widget.RecyclerView
 import com.github.polydome.popstash.app.di.qualifier.BoundViewModel
 import com.github.polydome.popstash.app.presentation.viewmodel.StashViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StashAdapter @Inject constructor(private val viewHolderFactory: ResourceViewHolder.Factory,
                                        @BoundViewModel private val stashViewModel: StashViewModel
 ) : RecyclerView.Adapter<ResourceViewHolder>() {
-    private var items = listOf<String>()
-    private val coroutineScope: CoroutineScope =
-            CoroutineScope(Dispatchers.IO)
+    private var urls = listOf<String>()
+    private val uiScope: CoroutineScope =
+            CoroutineScope(Dispatchers.Main)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResourceViewHolder =
             viewHolderFactory.create(parent)
 
     override fun getItemCount() =
-            items.count()
-
+            urls.count()
 
     override fun onBindViewHolder(holder: ResourceViewHolder, position: Int) {
-        holder.onChangeUrl(items[position])
+        holder.onChangeUrl(urls[position])
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        coroutineScope.launch {
-            stashViewModel.urls
-                    .collect { urls ->
-                        items = urls
-                        withContext(Dispatchers.Main) {
-                            notifyDataSetChanged()
-                        }
-                    }
+        uiScope.launch {
+            observeUrlList()
         }
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        coroutineScope.cancel()
+        uiScope.cancel()
+    }
+
+    private suspend fun observeUrlList() {
+        stashViewModel.urls
+                .flowOn(Dispatchers.IO)
+                .collect(::updateUrlList)
+    }
+
+    @MainThread
+    private fun updateUrlList(urls: List<String>) {
+        this.urls = urls
+        notifyDataSetChanged()
     }
 }
