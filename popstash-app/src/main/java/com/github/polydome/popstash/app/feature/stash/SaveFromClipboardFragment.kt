@@ -10,15 +10,11 @@ import com.github.polydome.popstash.app.databinding.FragmentSaveFromClipboardBin
 import com.github.polydome.popstash.app.di.qualifier.BoundViewModel
 import com.github.polydome.popstash.app.platform.view.DismissManager
 import com.github.polydome.popstash.app.presentation.viewmodel.SaveFromClipboardViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
-class SaveFromClipboardFragment : Fragment() {
-    @Inject
-    @BoundViewModel
-    lateinit var viewModel: SaveFromClipboardViewModel
-
+class SaveFromClipboardFragment @Inject constructor(
+        @BoundViewModel private val viewModel: SaveFromClipboardViewModel,
+) : Fragment() {
     private lateinit var binding: FragmentSaveFromClipboardBinding
     private lateinit var dismissManager: DismissManager<CardView>
 

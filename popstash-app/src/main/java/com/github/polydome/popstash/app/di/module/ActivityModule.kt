@@ -3,10 +3,12 @@ package com.github.polydome.popstash.app.di.module
 import android.content.Context
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentFactory
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.polydome.popstash.app.platform.GenericFragmentFactory
 import com.github.polydome.popstash.app.platform.view.ItemSwipeCallback
 import com.github.polydome.popstash.app.platform.ViewModelFactory
 import com.github.polydome.popstash.app.platform.service.WindowEventBus
@@ -44,6 +46,10 @@ object ActivityModule {
             viewModelFactory: ViewModelFactory,
     ): ViewModelProvider =
             ViewModelProvider(activity, viewModelFactory)
+
+    @Provides
+    fun fragmentFactory(genericFragmentFactory: GenericFragmentFactory): FragmentFactory =
+            genericFragmentFactory
 
     @Provides
     @ActivityScoped
