@@ -12,7 +12,8 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/app_bar"
@@ -26,7 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
-            android:paddingTop="4dp"
+            android:clipToPadding="false"
+            android:paddingTop="10dp"
+            android:paddingBottom="18dp"
             tools:listitem="@layout/row_resource"/>
 
         <androidx.fragment.app.FragmentContainerView
