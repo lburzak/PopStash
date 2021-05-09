@@ -20,10 +20,10 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/save_from_clipboard_content"
+            style="@style/CardView.Dialog"
             android:layout_height="60dp"
             android:layout_width="match_parent"
-            android:layout_margin="8dp"
-            app:cardElevation="6dp">
+            android:layout_margin="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -42,8 +42,8 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/dialog_title"
-                    android:textStyle="bold"
                     android:text="@string/save_link_from_clipboard"
+                    style="@style/TextView.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toEndOf="@id/icon_clipboard"
@@ -53,9 +53,9 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/link_url"
-                    style="@style/MaterialTextView.OneLineURL"
                     android:text="@{viewModel.urlInClipboard}"
                     tools:text="http://example.com/articles/article-slug-one"
+                    style="@style/TextView.Detail.OneLine"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toEndOf="@id/icon_clipboard"

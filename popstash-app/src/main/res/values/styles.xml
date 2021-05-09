@@ -30,11 +30,6 @@
         <item name="cornerRadius">0dp</item>
     </style>
 
-    <style name="MaterialTextView.OneLineURL" parent="Widget.MaterialComponents.TextView">
-        <item name="android:ellipsize">middle</item>
-        <item name="android:singleLine">true</item>
-    </style>
-
     <style name="AppTheme.Title" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">24sp</item>
@@ -48,15 +43,26 @@
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
-    <style name="ResourceTitle">
+    <style name="TextView.Title" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
-    <style name="ResourceDetail">
+    <style name="TextView.Detail.Small" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="TextView.Detail.OneLine" parent="Widget.MaterialComponents.TextView">
+        <item name="android:ellipsize">middle</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="CardView.Dialog" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">6dp</item>
+        <item name="cardBackgroundColor">?colorSurface</item>
     </style>
 </resources>
