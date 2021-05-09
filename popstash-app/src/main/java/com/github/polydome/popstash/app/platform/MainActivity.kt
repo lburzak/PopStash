@@ -2,6 +2,7 @@ package com.github.polydome.popstash.app.platform
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentFactory
 import com.github.polydome.popstash.app.R
