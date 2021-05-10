@@ -1,5 +1,6 @@
 package com.github.polydome.popstash.app.di.module
 
+import com.github.polydome.popstash.app.platform.MainActivity
 import com.github.polydome.popstash.app.platform.service.*
 import com.github.polydome.popstash.app.presentation.service.Clipboard
 import com.github.polydome.popstash.app.presentation.service.PatternMatcher
@@ -27,4 +28,8 @@ abstract class ServiceModule {
     @Binds
     @ActivityScoped
     abstract fun windowEventListener(windowEventBus: WindowEventBus): WindowEventListener
+
+    @Binds
+    @ActivityScoped
+    abstract fun internetBrowser(activity: MainActivity): InternetBrowser
 }

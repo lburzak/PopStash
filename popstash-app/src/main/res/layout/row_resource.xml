@@ -12,6 +12,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="84dp"
+        android:onClick="@{() -> viewmodel.openCurrentResource()}"
         app:cardElevation="2dp"
         app:cardCornerRadius="6dp"
         app:cardBackgroundColor="?colorSurface"

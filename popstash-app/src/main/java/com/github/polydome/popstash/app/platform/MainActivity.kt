@@ -1,19 +1,20 @@
 package com.github.polydome.popstash.app.platform
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentFactory
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.di.entrypoint.FragmentFactoryEntryPoint
+import com.github.polydome.popstash.app.platform.service.InternetBrowser
 import com.github.polydome.popstash.app.platform.service.WindowEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity(R.layout.activity_main), InternetBrowser {
     @Inject
     lateinit var windowEventListener: WindowEventListener
 
@@ -32,4 +33,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onWindowFocusChanged(hasFocus)
         windowEventListener.onFocusChange(hasFocus)
     }
+
+    override fun browseSite(url: String) {
+        val browserIntent = createBrowserIntent(url)
+        startActivity(browserIntent)
+    }
+
+    private fun createBrowserIntent(url: String): Intent =
+            Intent(Intent.ACTION_VIEW, Uri.parse(url))
 }

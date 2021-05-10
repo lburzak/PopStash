@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.polydome.popstash.app.platform.service.InternetBrowser
 import com.github.polydome.popstash.domain.usecase.DeleteResource
 import com.github.polydome.popstash.domain.usecase.IdentifyResource
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 class ResourceViewModel @Inject constructor(
         private val identifyResource: IdentifyResource,
-        private val deleteResource: DeleteResource
+        private val deleteResource: DeleteResource,
+        private val internetBrowser: InternetBrowser
 ) : ViewModel() {
     private val _title = MutableLiveData<String>()
     private val _site = MutableLiveData<String>()
@@ -50,6 +52,12 @@ class ResourceViewModel @Inject constructor(
                     deleteResource.execute(url)
                 }
             }
+        }
+    }
+
+    fun openCurrentResource() {
+        resourceUrl?.let { url ->
+            internetBrowser.browseSite(url)
         }
     }
 }
