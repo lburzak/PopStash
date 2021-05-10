@@ -11,5 +11,6 @@
 
     <color name="colorBackground_dark">#212121</color>
     <color name="colorSurface_dark">#0B0B0B</color>
+    <color name="colorTextPrimary_dark">#fefefe</color>
     <color name="colorTextSecondary_dark">#6A6A6A</color>
 </resources>

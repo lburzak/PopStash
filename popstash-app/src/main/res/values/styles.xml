@@ -21,6 +21,7 @@
         <item name="android:colorBackground">@color/colorBackground_dark</item>
         <item name="android:statusBarColor">@color/colorBackground_dark</item>
         <item name="colorSurface">@color/colorSurface_dark</item>
+        <item name="android:textColorPrimary">@color/colorTextPrimary_dark</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary_dark</item>
     </style>
 

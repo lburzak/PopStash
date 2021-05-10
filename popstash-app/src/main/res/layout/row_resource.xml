@@ -40,6 +40,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/site"
                 android:text="@{viewmodel.site}"
+                style="@style/TextView.Detail.Small"
                 tools:text="medium.com"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
