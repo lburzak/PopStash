@@ -27,6 +27,12 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_constraintTop_toTopOf="parent"/>
 
+            <androidx.constraintlayout.widget.Group
+                android:visibility="@{viewModel.stashEmpty ? View.VISIBLE : View.GONE}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tip_stash_empty,tip_how_to_save"/>
+
             <com.google.android.material.textview.MaterialTextView
                 style="@style/TextView.Tip"
                 android:id="@+id/tip_stash_empty"
@@ -41,6 +47,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/TextView.Tip"
+                android:id="@+id/tip_how_to_save"
                 android:text="@string/stash_empty_instructions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
