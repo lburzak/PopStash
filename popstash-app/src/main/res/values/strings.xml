@@ -8,6 +8,6 @@
     <string name="clipboard_icon">Clipboard icon</string>
     <string name="save_link_from_clipboard">Save link from clipboard</string>
     <string name="link_save">Save</string>
-    <string name="stash_empty">You haven\'t saved anything yet!</string>
+    <string name="stash_empty">Your stash is empty!</string>
     <string name="stash_empty_instructions"><b>Share</b> a site to <b>&app_name;</b>\nOR\n<b>Copy</b> a <b>link</b> and come back here</string>
 </resources>
