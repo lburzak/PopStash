@@ -19,14 +19,18 @@ class ResourceViewModel @Inject constructor(
 ) : ViewModel() {
     private val _title = MutableLiveData<String>()
     private val _site = MutableLiveData<String>()
+    private val _loading = MutableLiveData<Boolean>()
 
     val title: LiveData<String> = _title
     val site: LiveData<String> = _site
+    val loading: LiveData<Boolean> = _loading
 
     private var resourceUrl: String? = null
 
     fun showUrl(url: String) {
         viewModelScope.launch {
+            _loading.postValue(true)
+
             val identificationResult = identifyResource.execute(url)
 
             var title = ""
@@ -42,6 +46,8 @@ class ResourceViewModel @Inject constructor(
 
             _title.postValue(title)
             _site.postValue(site)
+
+            _loading.postValue(false)
         }
     }
 

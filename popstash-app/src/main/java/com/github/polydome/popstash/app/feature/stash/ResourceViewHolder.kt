@@ -1,7 +1,6 @@
 package com.github.polydome.popstash.app.feature.stash
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,21 @@ import com.github.polydome.popstash.app.presentation.viewmodel.ResourceViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 
-class ResourceViewHolder(itemView: View, private val viewModel: ResourceViewModel) : RecyclerView.ViewHolder(itemView), Swipeable {
+class ResourceViewHolder(
+        private val binding: RowResourceBinding,
+        private val viewModel: ResourceViewModel,
+) : RecyclerView.ViewHolder(binding.root), Swipeable {
+    init {
+        binding.lifecycleOwner?.let { lifecycleOwner ->
+            viewModel.loading.observe(lifecycleOwner) { isLoading ->
+                if (isLoading)
+                    binding.shimmer.showShimmer(false)
+                else
+                    binding.shimmer.hideShimmer()
+            }
+        }
+    }
+
     fun onChangeUrl(url: String) {
         viewModel.showUrl(url)
     }
@@ -31,7 +44,7 @@ class ResourceViewHolder(itemView: View, private val viewModel: ResourceViewMode
                         lifecycleOwner = this@Factory.lifecycleOwner
                         viewmodel = viewModel
                     }
-            return ResourceViewHolder(binding.root, viewModel)
+            return ResourceViewHolder(binding, viewModel)
         }
     }
 }

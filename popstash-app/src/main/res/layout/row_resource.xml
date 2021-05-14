@@ -4,6 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
             name="viewmodel"
             type="com.github.polydome.popstash.app.presentation.viewmodel.ResourceViewModel" />
@@ -20,6 +22,7 @@
         android:layout_marginHorizontal="18dp">
 
         <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -43,12 +46,13 @@
                     app:layout_constraintVertical_chainStyle="spread"/>
                 
                 <ImageView
+                    android:visibility="@{viewmodel.loading ? View.VISIBLE : View.GONE}"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:src="@drawable/content_placeholder"
                     android:paddingVertical="1dp"
                     app:layout_constraintStart_toStartOf="@id/title"
-                    app:layout_constraintEnd_toEndOf="@id/title"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/title"
                     app:layout_constraintBottom_toBottomOf="@id/title"
                     android:contentDescription="@null" />
@@ -64,12 +68,13 @@
                     app:layout_constraintStart_toStartOf="parent"/>
 
                 <ImageView
+                    android:visibility="@{viewmodel.loading ? View.VISIBLE : View.GONE}"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:src="@drawable/content_placeholder"
                     android:paddingVertical="1dp"
                     app:layout_constraintStart_toStartOf="@id/site"
-                    app:layout_constraintEnd_toEndOf="@id/site"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/site"
                     app:layout_constraintBottom_toBottomOf="@id/site"
                     android:contentDescription="@null" />
