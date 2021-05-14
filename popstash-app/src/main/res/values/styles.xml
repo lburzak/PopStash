@@ -65,6 +65,11 @@
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
+    <style name="TextView.Tip" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
     <style name="CardView.Dialog" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">6dp</item>
         <item name="cardBackgroundColor">?colorSurface</item>
