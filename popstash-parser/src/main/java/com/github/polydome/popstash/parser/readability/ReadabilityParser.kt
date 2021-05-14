@@ -6,6 +6,7 @@ import com.github.polydome.popstash.domain.service.ResourceParser
 import com.github.polydome.popstash.parser.service.DomainExtractor
 import com.github.polydome.popstash.parser.service.HttpServer
 import com.github.polydome.popstash.parser.service.HttpServer.Result.Success
+import net.dankito.readability4j.Readability4J
 import javax.inject.Inject
 
 class ReadabilityParser @Inject constructor(
@@ -19,16 +20,20 @@ class ReadabilityParser @Inject constructor(
             else -> return null
         }
 
-        val article = readabilityFactory.forUri(url, html).parse()
-        val domain = domainExtractor.extractFromUrl(article.uri)
+        val readability = readabilityFactory.forUri(url, html)
+        val article = readability.parseSafely()
+        val domain = domainExtractor.extractFromUrl(url)
 
         val metadata = ResourceMetadata(
-                title = article.title ?: "Untitled",
-                summary = article.excerpt ?: "",
+                title = article?.title ?: url,
+                summary = article?.excerpt ?: "",
                 site = domain ?: "",
-                author = article.byline
+                author = article?.byline ?: ""
         )
 
         return ParsedResource(metadata = metadata)
     }
+
+    private fun Readability4J.parseSafely() =
+            try { parse() } catch (e: Exception) { null }
 }
