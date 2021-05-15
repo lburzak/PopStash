@@ -10,6 +10,7 @@
         <item name="android:statusBarColor">@color/colorStatusBar_light</item>
         <item name="colorSurface">@color/colorSurface_light</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary_light</item>
+        <item name="colorControlNormal">?android:textColorPrimary</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -23,6 +24,7 @@
         <item name="colorSurface">@color/colorSurface_dark</item>
         <item name="android:textColorPrimary">@color/colorTextPrimary_dark</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary_dark</item>
+        <item name="colorControlNormal">@color/colorTextPrimary_dark</item>
     </style>
 
     <style name="TextButton.NoInset" parent="Widget.MaterialComponents.Button.TextButton">
