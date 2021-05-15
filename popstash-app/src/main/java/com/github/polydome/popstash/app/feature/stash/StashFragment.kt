@@ -33,6 +33,12 @@ class StashFragment @Inject constructor(
         setupStashList()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        cleanupStashList()
+    }
+
     private fun setupBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = FragmentStashBinding.inflate(inflater, container, false)
                 .also {
@@ -49,5 +55,9 @@ class StashFragment @Inject constructor(
             }
             itemTouchHelper.attachToRecyclerView(this)
         }
+    }
+
+    private fun cleanupStashList() {
+        binding.stashRecyclerView.layoutManager = null
     }
 }
