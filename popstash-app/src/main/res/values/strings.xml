@@ -10,4 +10,8 @@
     <string name="link_save">Save</string>
     <string name="stash_empty">Your stash is empty!</string>
     <string name="stash_empty_instructions"><b>Share</b> a site to <b>&app_name;</b>\nOR\n<b>Copy</b> a <b>link</b> and come back here</string>
+    <string-array name="themes">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
 </resources>
