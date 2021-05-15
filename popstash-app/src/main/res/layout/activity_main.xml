@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:colorBackground">
@@ -23,5 +24,13 @@
 
         app:defaultNavHost="true"
         app:navGraph="@navigation/app_graph"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/save_from_clipboard_fragment"
+        android:name="com.github.polydome.popstash.app.feature.stash.SaveFromClipboardFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        tools:layout="@layout/fragment_save_from_clipboard"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
