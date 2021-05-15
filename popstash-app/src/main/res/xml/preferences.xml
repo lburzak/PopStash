@@ -3,6 +3,9 @@
     <ListPreference
         android:key="theme"
         android:title="Theme"
-        android:entries="@array/themes"/>
+        android:summary="Application is displayed in %s theme"
+        android:entries="@array/themes"
+        android:entryValues="@array/themes_values"
+        android:defaultValue="dark"/>
 
 </PreferenceScreen>
