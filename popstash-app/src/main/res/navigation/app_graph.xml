@@ -5,10 +5,19 @@
     android:id="@+id/app_graph"
     app:startDestination="@id/stash_fragment">
 
+    <action
+        android:id="@+id/action_open_settings"
+        app:destination="@id/settings_fragment"/>
+
     <fragment
         android:id="@+id/stash_fragment"
         android:name="com.github.polydome.popstash.app.feature.stash.StashFragment"
         android:label="Stash"
         tools:layout="@layout/fragment_stash"/>
+
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.github.polydome.popstash.app.feature.settings.SettingsFragment"
+        android:label="Settings" />
 
 </navigation>

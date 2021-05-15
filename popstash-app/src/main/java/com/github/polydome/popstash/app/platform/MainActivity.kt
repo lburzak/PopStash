@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentFactory
+import androidx.navigation.findNavController
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.di.entrypoint.FragmentFactoryEntryPoint
 import com.github.polydome.popstash.app.platform.service.InternetBrowser
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), InternetBrowser 
     }
 
     private fun showSettings() {
-        TODO("Not implemented")
+        findNavController(R.id.nav_container)
+                .navigate(R.id.action_open_settings)
     }
 }
