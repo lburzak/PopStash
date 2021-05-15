@@ -10,70 +10,59 @@
             type="com.github.polydome.popstash.app.presentation.viewmodel.StashViewModel" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:colorBackground">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.Group
+            android:visibility="@{viewModel.stashEmpty ? View.VISIBLE : View.GONE}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tip_stash_empty,tip_how_to_save"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/TextView.Tip"
+            android:id="@+id/tip_stash_empty"
+            android:text="@string/stash_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.2"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/TextView.Tip"
+            android:id="@+id/tip_how_to_save"
+            android:text="@string/stash_empty_instructions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tip_stash_empty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stash_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="10dp"
+            android:paddingBottom="18dp"
+            tools:listitem="@layout/row_resource"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/app_bar"
-                style="@style/AppTheme.ActionBar"
-                app:title="Stash"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <androidx.constraintlayout.widget.Group
-                android:visibility="@{viewModel.stashEmpty ? View.VISIBLE : View.GONE}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="tip_stash_empty,tip_how_to_save"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextView.Tip"
-                android:id="@+id/tip_stash_empty"
-                android:text="@string/stash_empty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0.2"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextView.Tip"
-                android:id="@+id/tip_how_to_save"
-                android:text="@string/stash_empty_instructions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@id/tip_stash_empty"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/stash_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="?attr/actionBarSize"
-                android:clipToPadding="false"
-                android:paddingTop="10dp"
-                android:paddingBottom="18dp"
-                tools:listitem="@layout/row_resource"/>
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/save_from_clipboard_fragment"
-                android:name="com.github.polydome.popstash.app.feature.stash.SaveFromClipboardFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/save_from_clipboard_fragment"
+            android:name="com.github.polydome.popstash.app.feature.stash.SaveFromClipboardFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
