@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
 
     private lateinit var navController: NavController
 
+    private var menu: Menu? = null
+
     private fun preCreate() {
         supportFragmentManager.fragmentFactory = fragmentFactory
     }
@@ -54,6 +56,10 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
         super.onStart()
 
         navController = findNavController(R.id.nav_container)
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         listenForDestinationChanges()
     }
@@ -69,7 +75,12 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if (menu == null)
+            return false
+
+        this.menu = menu
         menuInflater.inflate(R.menu.menu, menu)
+
         return true
     }
 
@@ -98,6 +109,8 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
         navController
                 .addOnDestinationChangedListener { _, destination, _ ->
                     setAppBarTitle(destination.label.toString())
+                    getSettingsMenuItem()?.isVisible =
+                            destination.id != R.id.destination_settings
                 }
     }
 
@@ -115,4 +128,7 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
     private fun setAppBarTitle(title: String) {
         supportActionBar?.title = title
     }
+
+    private fun getSettingsMenuItem(): MenuItem? =
+            menu?.findItem(R.id.menu_settings)
 }
