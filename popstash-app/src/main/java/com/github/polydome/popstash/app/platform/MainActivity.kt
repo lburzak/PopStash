@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.di.entrypoint.FragmentFactoryEntryPoint
-import com.github.polydome.popstash.app.di.entrypoint.ThemeProviderEntryPoint
 import com.github.polydome.popstash.app.platform.service.InternetBrowser
 import com.github.polydome.popstash.app.platform.service.ThemeProvider
 import com.github.polydome.popstash.app.platform.service.WindowEventListener
@@ -23,9 +22,12 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(R.layout.activity_main), InternetBrowser {
+class MainActivity : AppCompatActivity(), InternetBrowser {
     @Inject
     lateinit var windowEventListener: WindowEventListener
+
+    @Inject
+    lateinit var themeProvider: ThemeProvider
 
     private val fragmentFactoryEntryPoint: FragmentFactoryEntryPoint
         get() = EntryPointAccessors.fromActivity(this, FragmentFactoryEntryPoint::class.java)
@@ -33,18 +35,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), InternetBrowser 
     private val fragmentFactory: FragmentFactory
         get() = fragmentFactoryEntryPoint.fragmentFactory()
 
-    private val themeProviderEntryPoint: ThemeProviderEntryPoint
-        get() = EntryPointAccessors.fromActivity(this, ThemeProviderEntryPoint::class.java)
-
-    private val themeProvider: ThemeProvider
-        get() = themeProviderEntryPoint.themeProvider()
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        //TODO: Try setting content view manually for proper easier injection
-        setTheme(themeProvider.getThemeResId())
-
         supportFragmentManager.fragmentFactory = fragmentFactory
         super.onCreate(savedInstanceState)
+
+        setTheme(themeProvider.getThemeResId())
+        setContentView(R.layout.activity_main)
 
         setSupportActionBar(findViewById(R.id.app_bar))
         supportActionBar?.show()
