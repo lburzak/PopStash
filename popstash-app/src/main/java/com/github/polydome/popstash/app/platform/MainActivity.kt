@@ -28,12 +28,11 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
     @Inject
     lateinit var themeProvider: ThemeProvider
 
-    private val fragmentFactoryEntryPoint: FragmentFactoryEntryPoint
-        get() = EntryPointAccessors.fromActivity(this, FragmentFactoryEntryPoint::class.java)
-
-    // TODO: Delegate
-    private val fragmentFactory: FragmentFactory
-        get() = fragmentFactoryEntryPoint.fragmentFactory()
+    private val fragmentFactory: FragmentFactory by lazy {
+        EntryPointAccessors
+                .fromActivity(this, FragmentFactoryEntryPoint::class.java)
+                .fragmentFactory()
+    }
 
     private fun preCreate() {
         supportFragmentManager.fragmentFactory = fragmentFactory
