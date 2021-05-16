@@ -12,12 +12,12 @@
     <fragment
         android:id="@+id/stash_fragment"
         android:name="com.github.polydome.popstash.app.feature.stash.StashFragment"
-        android:label="Stash"
+        android:label="@string/stash"
         tools:layout="@layout/fragment_stash"/>
 
     <fragment
         android:id="@+id/settings_fragment"
         android:name="com.github.polydome.popstash.app.feature.settings.SettingsFragment"
-        android:label="Settings" />
+        android:label="@string/settings" />
 
 </navigation>

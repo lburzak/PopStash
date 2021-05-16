@@ -5,10 +5,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentFactory
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.di.entrypoint.FragmentFactoryEntryPoint
@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
                 .fragmentFactory()
     }
 
+    private lateinit var navController: NavController
+
     private fun preCreate() {
         supportFragmentManager.fragmentFactory = fragmentFactory
     }
@@ -44,7 +46,16 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
         super.onCreate(savedInstanceState)
 
         setupUI()
+
         listenForThemeChanges()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        navController = findNavController(R.id.nav_container)
+
+        listenForDestinationChanges()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -83,6 +94,13 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
         }
     }
 
+    private fun listenForDestinationChanges() {
+        navController
+                .addOnDestinationChangedListener { _, destination, _ ->
+                    setAppBarTitle(destination.label.toString())
+                }
+    }
+
     private fun onThemeChanged() {
         recreate()
     }
@@ -91,7 +109,10 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
             Intent(Intent.ACTION_VIEW, Uri.parse(url))
 
     private fun showSettings() {
-        findNavController(R.id.nav_container)
-                .navigate(R.id.action_open_settings)
+        navController.navigate(R.id.action_open_settings)
+    }
+
+    private fun setAppBarTitle(title: String) {
+        supportActionBar?.title = title
     }
 }
