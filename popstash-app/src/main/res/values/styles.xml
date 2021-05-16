@@ -18,13 +18,27 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="fontFamily">@font/poppins</item>
-
+        <item name="alertDialogTheme">@style/AlertDialog.Dark</item>
         <item name="android:colorBackground">@color/colorBackground_dark</item>
         <item name="android:statusBarColor">@color/colorBackground_dark</item>
         <item name="colorSurface">@color/colorSurface_dark</item>
         <item name="android:textColorPrimary">@color/colorTextPrimary_dark</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary_dark</item>
         <item name="colorControlNormal">@color/colorTextPrimary_dark</item>
+        <item name="colorOnSurface">@color/colorTextPrimary_dark</item>
+    </style>
+
+    <style name="AlertDialog.Dark" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:textColorPrimary">@color/colorTextPrimary_dark</item>
+        <item name="android:textColorSecondary">@color/colorTextPrimary_dark</item>
+        <item name="textColorAlertDialogListItem">@color/colorTextPrimary_dark</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="android:background">@color/colorBackground_dark</item>
+        <item name="buttonBarButtonStyle">@style/AlertDialog.Button.Dark</item>
+    </style>
+
+    <style name="AlertDialog.Button.Dark" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="TextButton.NoInset" parent="Widget.MaterialComponents.Button.TextButton">
