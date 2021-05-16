@@ -1,12 +1,14 @@
 package com.github.polydome.popstash.app.feature.settings
 
 import android.os.Bundle
-import androidx.annotation.StyleRes
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import com.github.polydome.popstash.app.R
+import com.github.polydome.popstash.app.platform.service.Settings
+import com.github.polydome.popstash.app.platform.service.Settings.Theme
+import javax.inject.Inject
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment @Inject constructor(private val settings: Settings) : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
@@ -14,25 +16,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val themePreference = findPreference<ListPreference>("theme")
 
         themePreference?.setOnPreferenceChangeListener { _, newValue ->
-            val theme = themePreference.parseThemeValue(newValue)
-            onThemeChange(theme)
-
+            settings.theme = themePreference.parseThemeValue(newValue)
             true
         }
     }
 
-    private fun onThemeChange(theme: Theme) {
-        val activity = requireActivity()
-        activity.setTheme(theme.resId)
-    }
-
     private fun ListPreference.parseThemeValue(value: Any): Theme {
         val valueIndex = findIndexOfValue(value as String?)
-        return Theme.values()[valueIndex]
-    }
-
-    private enum class Theme(@StyleRes val resId: Int) {
-        LIGHT(R.style.AppTheme),
-        DARK(R.style.AppTheme_Dark)
+        return Theme.ofKey(valueIndex)
     }
 }

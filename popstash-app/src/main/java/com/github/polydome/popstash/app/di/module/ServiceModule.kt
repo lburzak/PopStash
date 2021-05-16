@@ -32,4 +32,12 @@ abstract class ServiceModule {
     @Binds
     @ActivityScoped
     abstract fun internetBrowser(activity: MainActivity): InternetBrowser
+
+    @Binds
+    @ActivityScoped
+    abstract fun settings(settingsManager: SettingsManager): Settings
+
+    @Binds
+    @ActivityScoped
+    abstract fun themeProvider(settingsManager: SettingsManager): ThemeProvider
 }

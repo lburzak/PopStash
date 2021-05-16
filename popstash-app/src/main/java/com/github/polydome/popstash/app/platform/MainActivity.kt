@@ -1,6 +1,7 @@
 package com.github.polydome.popstash.app.platform
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -11,7 +12,9 @@ import androidx.fragment.app.FragmentFactory
 import androidx.navigation.findNavController
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.di.entrypoint.FragmentFactoryEntryPoint
+import com.github.polydome.popstash.app.di.entrypoint.ThemeProviderEntryPoint
 import com.github.polydome.popstash.app.platform.service.InternetBrowser
+import com.github.polydome.popstash.app.platform.service.ThemeProvider
 import com.github.polydome.popstash.app.platform.service.WindowEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
@@ -28,7 +31,15 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), InternetBrowser 
     private val fragmentFactory: FragmentFactory
         get() = fragmentFactoryEntryPoint.fragmentFactory()
 
+    private val themeProviderEntryPoint: ThemeProviderEntryPoint
+        get() = EntryPointAccessors.fromActivity(this, ThemeProviderEntryPoint::class.java)
+
+    private val themeProvider: ThemeProvider
+        get() = themeProviderEntryPoint.themeProvider()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(themeProvider.getThemeResId())
+
         supportFragmentManager.fragmentFactory = fragmentFactory
         super.onCreate(savedInstanceState)
 

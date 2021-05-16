@@ -1,6 +1,7 @@
 package com.github.polydome.popstash.app.di.module
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentFactory
@@ -64,4 +65,9 @@ object ActivityModule {
     @Provides
     fun mainActivity(activity: FragmentActivity): MainActivity =
             activity as MainActivity
+
+    @Provides
+    fun sharedPreferences(activity: FragmentActivity): SharedPreferences =
+            activity.getSharedPreferences("com.github.polydome.popstash.SHARED_PREFS_KEY",
+                    Context.MODE_PRIVATE)
 }
