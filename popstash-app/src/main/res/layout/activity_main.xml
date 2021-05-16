@@ -11,6 +11,7 @@
         android:id="@+id/app_bar"
         style="@style/AppTheme.ActionBar"
         app:title="Stash"
+        app:menu="@menu/menu"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent"/>

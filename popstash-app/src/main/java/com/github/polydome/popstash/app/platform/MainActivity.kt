@@ -4,12 +4,15 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentFactory
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.di.entrypoint.FragmentFactoryEntryPoint
 import com.github.polydome.popstash.app.platform.service.InternetBrowser
@@ -34,10 +37,6 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
                 .fragmentFactory()
     }
 
-    private lateinit var navController: NavController
-
-    private var menu: Menu? = null
-
     private fun preCreate() {
         supportFragmentManager.fragmentFactory = fragmentFactory
     }
@@ -55,13 +54,7 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
     override fun onStart() {
         super.onStart()
 
-        navController = findNavController(R.id.nav_container)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        listenForDestinationChanges()
+        setupAppBar()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -74,28 +67,26 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
         startActivity(browserIntent)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (menu == null)
-            return false
-
-        this.menu = menu
-        menuInflater.inflate(R.menu.menu, menu)
-
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_settings -> showSettings()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun setupUI() {
         setTheme(themeProvider.getThemeResId())
         setContentView(R.layout.activity_main)
+    }
 
-        setSupportActionBar(findViewById(R.id.app_bar))
+    private fun setupAppBar() {
+        val navController = findNavController(R.id.nav_container)
+        val configuration = AppBarConfiguration(navController.graph)
+        val toolbar: Toolbar = findViewById(R.id.app_bar)
+
+        toolbar.setupWithNavController(navController, configuration)
+
+        toolbar.setOnMenuItemClickListener { item ->
+            item.onNavDestinationSelected(navController)
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            toolbar.menu.findItem(R.id.destination_settings).isVisible =
+                    destination.id != R.id.destination_settings
+        }
     }
 
     private fun listenForThemeChanges() {
@@ -105,30 +96,10 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
         }
     }
 
-    private fun listenForDestinationChanges() {
-        navController
-                .addOnDestinationChangedListener { _, destination, _ ->
-                    setAppBarTitle(destination.label.toString())
-                    getSettingsMenuItem()?.isVisible =
-                            destination.id != R.id.destination_settings
-                }
-    }
-
     private fun onThemeChanged() {
         recreate()
     }
 
     private fun createBrowserIntent(url: String): Intent =
             Intent(Intent.ACTION_VIEW, Uri.parse(url))
-
-    private fun showSettings() {
-        navController.navigate(R.id.action_open_settings)
-    }
-
-    private fun setAppBarTitle(title: String) {
-        supportActionBar?.title = title
-    }
-
-    private fun getSettingsMenuItem(): MenuItem? =
-            menu?.findItem(R.id.menu_settings)
 }
