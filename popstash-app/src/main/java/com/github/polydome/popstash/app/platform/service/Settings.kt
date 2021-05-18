@@ -15,6 +15,7 @@ interface Settings {
 
         companion object {
             fun ofKey(key: Int): Theme = values()[key]
+            val default: Theme = DARK
         }
     }
 }

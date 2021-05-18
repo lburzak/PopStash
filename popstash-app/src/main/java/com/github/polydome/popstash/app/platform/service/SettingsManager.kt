@@ -23,7 +23,7 @@ class SettingsManager @Inject constructor(private val preferences: SharedPrefere
     override val themeChanges: Flow<Int> =  _themeResId
 
     private fun getPersistedThemeKey(): Int =
-            preferences.getInt(KEY_THEME, 0)
+            preferences.getInt(KEY_THEME, Settings.Theme.default.key)
 
     private fun persistThemeKey(key: Int) {
         preferences.edit().putInt(KEY_THEME, key).apply()
