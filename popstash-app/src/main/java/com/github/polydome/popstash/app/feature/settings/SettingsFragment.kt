@@ -21,18 +21,18 @@ class SettingsFragment @Inject constructor(
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val themePreference = findPreference<ListPreference>("theme")
+        val preferences = Preferences()
 
-        themePreference?.setOnPreferenceChangeListener { preference, newValue ->
-            onThemeChange(preference as ListPreference, newValue as String)
-            true
-        }
+        with(preferences) {
+            theme.setOnPreferenceChangeListener { preference, newValue ->
+                onThemeChange(preference as ListPreference, newValue as String)
+                true
+            }
 
-        val licensesPreference = findPreference<Preference>("about")
-
-        licensesPreference?.setOnPreferenceClickListener {
-            showLicensesPage()
-            true
+            about.setOnPreferenceClickListener {
+                showLicensesPage()
+                true
+            }
         }
     }
 
@@ -44,12 +44,21 @@ class SettingsFragment @Inject constructor(
         }
     }
 
+    private fun showLicensesPage() {
+        navigator.navigateTo(R.id.destination_about)
+    }
+
     private fun ListPreference.parseThemeValue(value: String): Theme {
         val valueIndex = findIndexOfValue(value)
         return Theme.ofKey(valueIndex)
     }
 
-    private fun showLicensesPage() {
-        navigator.navigateTo(R.id.destination_about)
-    }
+    private fun <T: Preference> requirePreference(key: CharSequence): T =
+            findPreference(key) ?:
+                throw IllegalArgumentException("No such preference registered: $key")
+
+    private inner class Preferences(
+            val theme: ListPreference = requirePreference("theme"),
+            val about: Preference = requirePreference("about")
+    )
 }
