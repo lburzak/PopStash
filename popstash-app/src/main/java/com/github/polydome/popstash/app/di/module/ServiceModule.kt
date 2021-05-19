@@ -2,6 +2,9 @@ package com.github.polydome.popstash.app.di.module
 
 import com.github.polydome.popstash.app.presentation.common.InternetBrowser
 import com.github.polydome.popstash.app.platform.MainActivity
+import com.github.polydome.popstash.app.platform.event.WindowEventBus
+import com.github.polydome.popstash.app.platform.event.WindowEventEmitter
+import com.github.polydome.popstash.app.platform.event.WindowEventListener
 import com.github.polydome.popstash.app.platform.service.*
 import com.github.polydome.popstash.app.platform.settings.Settings
 import com.github.polydome.popstash.app.platform.settings.SettingsManager

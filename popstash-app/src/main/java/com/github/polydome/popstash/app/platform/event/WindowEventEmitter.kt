@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.platform.service
+package com.github.polydome.popstash.app.platform.event
 
 import kotlinx.coroutines.flow.Flow
 

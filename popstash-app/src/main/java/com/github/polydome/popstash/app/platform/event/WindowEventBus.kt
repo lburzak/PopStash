@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.platform.service
+package com.github.polydome.popstash.app.platform.event
 
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CoroutineScope

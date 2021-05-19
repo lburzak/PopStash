@@ -13,7 +13,7 @@ import com.github.polydome.popstash.app.platform.GenericFragmentFactory
 import com.github.polydome.popstash.app.platform.MainActivity
 import com.github.polydome.popstash.app.platform.view.ItemSwipeCallback
 import com.github.polydome.popstash.app.platform.ViewModelFactory
-import com.github.polydome.popstash.app.platform.service.WindowEventBus
+import com.github.polydome.popstash.app.platform.event.WindowEventBus
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
