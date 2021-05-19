@@ -1,5 +1,6 @@
 package com.github.polydome.popstash.app.di.module
 
+import com.github.polydome.popstash.app.presentation.service.InternetBrowser
 import com.github.polydome.popstash.app.platform.MainActivity
 import com.github.polydome.popstash.app.platform.service.*
 import com.github.polydome.popstash.app.platform.settings.Settings

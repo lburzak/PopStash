@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.polydome.popstash.app.platform.service.InternetBrowser
+import com.github.polydome.popstash.app.presentation.service.InternetBrowser
 import com.github.polydome.popstash.domain.usecase.DeleteResource
 import com.github.polydome.popstash.domain.usecase.IdentifyResource
 import kotlinx.coroutines.Dispatchers
