@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.polydome.popstash.app.platform.GenericFragmentFactory
 import com.github.polydome.popstash.app.platform.MainActivity
-import com.github.polydome.popstash.app.platform.view.ItemSwipeCallback
+import com.github.polydome.popstash.app.feature.common.ItemSwipeCallback
 import com.github.polydome.popstash.app.platform.ViewModelFactory
 import com.github.polydome.popstash.app.platform.event.WindowEventBus
 import dagger.Module

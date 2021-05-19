@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.platform.view
+package com.github.polydome.popstash.app.feature.common
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView

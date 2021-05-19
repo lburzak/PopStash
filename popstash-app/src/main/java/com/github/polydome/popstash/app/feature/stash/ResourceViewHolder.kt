@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.github.polydome.popstash.app.databinding.RowResourceBinding
-import com.github.polydome.popstash.app.platform.view.Swipeable
+import com.github.polydome.popstash.app.feature.common.Swipeable
 import com.github.polydome.popstash.app.presentation.viewmodel.ResourceViewModel
 import javax.inject.Inject
 import javax.inject.Provider

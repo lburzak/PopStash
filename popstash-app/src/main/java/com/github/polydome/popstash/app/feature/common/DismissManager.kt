@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.platform.view
+package com.github.polydome.popstash.app.feature.common
 
 import android.annotation.SuppressLint
 import android.view.View
