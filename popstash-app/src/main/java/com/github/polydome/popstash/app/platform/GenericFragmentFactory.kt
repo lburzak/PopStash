@@ -2,7 +2,7 @@ package com.github.polydome.popstash.app.platform
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
-import com.github.polydome.popstash.app.feature.settings.SettingsFragment
+import com.github.polydome.popstash.app.platform.settings.SettingsFragment
 import com.github.polydome.popstash.app.feature.stash.SaveFromClipboardFragment
 import com.github.polydome.popstash.app.feature.stash.StashFragment
 import javax.inject.Inject

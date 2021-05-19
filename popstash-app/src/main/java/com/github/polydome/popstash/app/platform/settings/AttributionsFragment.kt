@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.feature.settings
+package com.github.polydome.popstash.app.platform.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater

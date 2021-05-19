@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.feature.settings
+package com.github.polydome.popstash.app.platform.settings
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
@@ -12,7 +12,6 @@ import com.github.polydome.popstash.app.platform.service.Settings.Theme
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// TODO: Move to platform
 class SettingsFragment @Inject constructor(
         private val settings: Settings,
 ) : PreferenceFragmentCompat() {
