@@ -16,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.di.entrypoint.FragmentFactoryEntryPoint
 import com.github.polydome.popstash.app.platform.service.InternetBrowser
+import com.github.polydome.popstash.app.platform.service.Navigator
 import com.github.polydome.popstash.app.platform.service.ThemeProvider
 import com.github.polydome.popstash.app.platform.service.WindowEventListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,12 +25,14 @@ import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), InternetBrowser {
+class MainActivity : AppCompatActivity(), InternetBrowser, Navigator {
     @Inject
     lateinit var windowEventListener: WindowEventListener
 
     @Inject
     lateinit var themeProvider: ThemeProvider
+
+    private lateinit var navController: NavController
 
     private val fragmentFactory: FragmentFactory by lazy {
         EntryPointAccessors
@@ -54,6 +57,7 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
     override fun onStart() {
         super.onStart()
 
+        setupNavigation()
         setupAppBar()
     }
 
@@ -72,8 +76,11 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
         setContentView(R.layout.activity_main)
     }
 
+    private fun setupNavigation() {
+        navController = findNavController(R.id.nav_container)
+    }
+
     private fun setupAppBar() {
-        val navController = findNavController(R.id.nav_container)
         val configuration = AppBarConfiguration(navController.graph)
         val toolbar: Toolbar = findViewById(R.id.app_bar)
 
@@ -102,4 +109,8 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
 
     private fun createBrowserIntent(url: String): Intent =
             Intent(Intent.ACTION_VIEW, Uri.parse(url))
+
+    override fun navigateTo(destinationId: Int) {
+        navController.navigate(destinationId)
+    }
 }
