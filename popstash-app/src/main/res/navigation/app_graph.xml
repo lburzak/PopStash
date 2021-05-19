@@ -6,6 +6,20 @@
     app:startDestination="@id/destination_stash">
 
     <fragment
+        android:id="@+id/destination_about"
+        android:label="About"
+        android:name="com.mikepenz.aboutlibraries.ui.LibsSupportFragment">
+        <argument
+            android:name="data"
+            app:argType="java.io.Serializable"
+            app:nullable="true" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_settings_to_about"
+        app:destination="@id/destination_about"/>
+
+    <fragment
         android:id="@+id/destination_stash"
         android:name="com.github.polydome.popstash.app.feature.stash.StashFragment"
         android:label="@string/stash"
