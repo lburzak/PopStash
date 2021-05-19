@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), InternetBrowser {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             toolbar.menu.findItem(R.id.destination_settings).isVisible =
-                    destination.id != R.id.destination_settings
+                    destination.id == navController.graph.startDestination
         }
     }
 
