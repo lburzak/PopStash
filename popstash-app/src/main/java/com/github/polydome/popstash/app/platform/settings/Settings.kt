@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.platform.service
+package com.github.polydome.popstash.app.platform.settings
 
 import androidx.annotation.StyleRes
 import com.github.polydome.popstash.app.R

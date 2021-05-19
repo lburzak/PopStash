@@ -7,8 +7,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.github.polydome.popstash.app.R
-import com.github.polydome.popstash.app.platform.service.Settings
-import com.github.polydome.popstash.app.platform.service.Settings.Theme
+import com.github.polydome.popstash.app.platform.settings.Settings.Theme
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.platform.service
+package com.github.polydome.popstash.app.platform.settings
 
 import android.content.SharedPreferences
 import dagger.hilt.android.scopes.ActivityScoped

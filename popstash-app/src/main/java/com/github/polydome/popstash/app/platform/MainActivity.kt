@@ -15,7 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.di.entrypoint.FragmentFactoryEntryPoint
 import com.github.polydome.popstash.app.platform.service.InternetBrowser
-import com.github.polydome.popstash.app.platform.service.ThemeProvider
+import com.github.polydome.popstash.app.platform.settings.ThemeProvider
 import com.github.polydome.popstash.app.platform.service.WindowEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors

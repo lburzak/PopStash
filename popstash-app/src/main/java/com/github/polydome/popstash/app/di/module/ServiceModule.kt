@@ -2,6 +2,9 @@ package com.github.polydome.popstash.app.di.module
 
 import com.github.polydome.popstash.app.platform.MainActivity
 import com.github.polydome.popstash.app.platform.service.*
+import com.github.polydome.popstash.app.platform.settings.Settings
+import com.github.polydome.popstash.app.platform.settings.SettingsManager
+import com.github.polydome.popstash.app.platform.settings.ThemeProvider
 import com.github.polydome.popstash.app.presentation.service.Clipboard
 import com.github.polydome.popstash.app.presentation.service.PatternMatcher
 import dagger.Binds
