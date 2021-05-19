@@ -1,7 +1,7 @@
 package com.github.polydome.popstash.app.platform.service
 
 import android.content.ClipboardManager
-import com.github.polydome.popstash.app.presentation.service.Clipboard
+import com.github.polydome.popstash.app.presentation.common.Clipboard
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

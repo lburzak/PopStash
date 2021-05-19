@@ -1,4 +1,4 @@
-package com.github.polydome.popstash.app.presentation.common
+package com.github.polydome.popstash.app.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

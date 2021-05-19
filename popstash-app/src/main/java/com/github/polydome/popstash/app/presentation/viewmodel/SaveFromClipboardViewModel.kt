@@ -3,9 +3,9 @@ package com.github.polydome.popstash.app.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.github.polydome.popstash.app.presentation.common.ReactiveViewModel
-import com.github.polydome.popstash.app.presentation.service.Clipboard
-import com.github.polydome.popstash.app.presentation.service.PatternMatcher
+import com.github.polydome.popstash.app.presentation.base.ReactiveViewModel
+import com.github.polydome.popstash.app.presentation.common.Clipboard
+import com.github.polydome.popstash.app.presentation.common.PatternMatcher
 import com.github.polydome.popstash.domain.usecase.SaveResource
 import com.github.polydome.popstash.domain.usecase.WatchResourceExists
 import kotlinx.coroutines.Dispatchers
