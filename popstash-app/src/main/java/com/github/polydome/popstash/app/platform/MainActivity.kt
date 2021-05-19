@@ -3,7 +3,6 @@ package com.github.polydome.popstash.app.platform
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentFactory
@@ -16,7 +15,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.di.entrypoint.FragmentFactoryEntryPoint
 import com.github.polydome.popstash.app.platform.service.InternetBrowser
-import com.github.polydome.popstash.app.platform.service.Navigator
 import com.github.polydome.popstash.app.platform.service.ThemeProvider
 import com.github.polydome.popstash.app.platform.service.WindowEventListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +23,7 @@ import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), InternetBrowser, Navigator {
+class MainActivity : AppCompatActivity(), InternetBrowser {
     @Inject
     lateinit var windowEventListener: WindowEventListener
 
@@ -109,8 +107,4 @@ class MainActivity : AppCompatActivity(), InternetBrowser, Navigator {
 
     private fun createBrowserIntent(url: String): Intent =
             Intent(Intent.ACTION_VIEW, Uri.parse(url))
-
-    override fun navigateTo(destinationId: Int) {
-        navController.navigate(destinationId)
-    }
 }

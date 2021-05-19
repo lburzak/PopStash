@@ -35,10 +35,6 @@ abstract class ServiceModule {
 
     @Binds
     @ActivityScoped
-    abstract fun navigator(activity: MainActivity): Navigator
-
-    @Binds
-    @ActivityScoped
     abstract fun settings(settingsManager: SettingsManager): Settings
 
     @Binds
