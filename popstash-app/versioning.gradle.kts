@@ -1,9 +1,11 @@
 import java.io.File
 
-val propertiesFile = File("${project.projectDir}/version.properties")
-val versionProperties = VersionProperties.wrap(propertiesFile.readProperties())
+val versionPropertiesPath = "${project.projectDir}/version.properties"
+extra.set("versionPropertiesPath", versionPropertiesPath)
 
 extra.apply {
+    val versionProperties = VersionProperties.readFrom(File(versionPropertiesPath))
+
     set("versionCode", versionProperties.code)
     set("versionName", versionProperties.name)
 }
@@ -22,16 +24,6 @@ tasks {
     }
 }
 
-fun File.readProperties(): java.util.Properties {
-    val properties = java.util.Properties()
-
-    inputStream().use {
-        properties.load(it)
-    }
-
-    return properties
-}
-
 abstract class VersionIncrement @javax.inject.Inject constructor(): DefaultTask() {
     init {
         group = "versioning"
@@ -43,10 +35,10 @@ abstract class VersionIncrement @javax.inject.Inject constructor(): DefaultTask(
 
     @TaskAction
     fun run() {
-        val propertiesFile = File(PROPERTIES_FILE_PATH)
-        val properties = propertiesFile.readProperties()
+        val versionPropertiesPath = "${project.projectDir}/version.properties"
+        val propertiesFile = File(versionPropertiesPath)
 
-        val versionProperties = VersionProperties.wrap(properties)
+        val versionProperties = VersionProperties.readFrom(propertiesFile)
         val currentVersion = versionProperties.toVersion()
 
         val newVersion = when (segment.get()) {
@@ -56,23 +48,7 @@ abstract class VersionIncrement @javax.inject.Inject constructor(): DefaultTask(
         }
 
         versionProperties.applyVersion(newVersion)
-        propertiesFile.writeProperties(versionProperties.properties)
-    }
-
-    private fun File.readProperties(): java.util.Properties {
-        val properties = java.util.Properties()
-
-        inputStream().use {
-            properties.load(it)
-        }
-
-        return properties
-    }
-
-    private fun File.writeProperties(properties: java.util.Properties) {
-        writer().use {
-            properties.store(it, null)
-        }
+        versionProperties.writeTo(propertiesFile)
     }
 
     private companion object {
@@ -88,6 +64,9 @@ enum class VersionSegment {
 
 class VersionProperties private constructor(val properties: java.util.Properties) {
     companion object {
+        fun readFrom(file: File): VersionProperties =
+                VersionProperties(PropertiesUtil.readFrom(file))
+
         fun wrap(properties: java.util.Properties) =
                 VersionProperties(properties)
 
@@ -127,6 +106,10 @@ class VersionProperties private constructor(val properties: java.util.Properties
         )
     }
 
+    fun writeTo(file: File) {
+        PropertiesUtil.write(properties, file)
+    }
+
     private fun java.util.Properties.readInt(key: String): Int =
             getProperty(key).toInt()
 
@@ -134,6 +117,26 @@ class VersionProperties private constructor(val properties: java.util.Properties
         val value: String = getProperty(key)
 
         return if (value.isEmpty()) null else value
+    }
+}
+
+object PropertiesUtil {
+    fun readFrom(file: File): java.util.Properties {
+        with(file) {
+            val properties = java.util.Properties()
+
+            inputStream().use {
+                properties.load(it)
+            }
+
+            return properties
+        }
+    }
+
+    fun write(properties: java.util.Properties, file: File) {
+        file.writer().use {
+            properties.store(it, null)
+        }
     }
 }
 
