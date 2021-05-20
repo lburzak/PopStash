@@ -1,5 +1,13 @@
 import java.io.File
 
+val propertiesFile = File("${project.projectDir}/version.properties")
+val versionProperties = VersionProperties.wrap(propertiesFile.readProperties())
+
+extra.apply {
+    set("versionCode", versionProperties.code)
+    set("versionName", versionProperties.name)
+}
+
 tasks {
     register<VersionIncrement>("incrementRelease") {
         segment.set(VersionSegment.RELEASE)
@@ -12,6 +20,16 @@ tasks {
     register<VersionIncrement>("incrementFix") {
         segment.set(VersionSegment.FIX)
     }
+}
+
+fun File.readProperties(): java.util.Properties {
+    val properties = java.util.Properties()
+
+    inputStream().use {
+        properties.load(it)
+    }
+
+    return properties
 }
 
 abstract class VersionIncrement @javax.inject.Inject constructor(): DefaultTask() {
@@ -82,6 +100,12 @@ class VersionProperties private constructor(val properties: java.util.Properties
             const val NAME = "version.name"
         }
     }
+
+    val code: Int
+        get() = properties.readInt(PropertyKeys.CODE)
+
+    val name: String
+        get() = properties.getProperty(PropertyKeys.NAME)
 
     fun applyVersion(version: Version) {
         with(properties) {
