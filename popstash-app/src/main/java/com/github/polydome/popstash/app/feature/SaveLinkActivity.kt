@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.github.polydome.popstash.app.R
 import com.github.polydome.popstash.app.presentation.viewmodel.SaveResourceViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -18,6 +19,11 @@ class SaveLinkActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.outcome
+                    .collect(::onOutcome)
+        }
 
         val text = if (intent.shouldBeHandled())
             intent.getSharedText()
@@ -31,13 +37,25 @@ class SaveLinkActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun onOutcome(outcome: SaveResourceViewModel.Outcome) {
+        when (outcome) {
+            SaveResourceViewModel.Outcome.FAILURE -> showActionRejected()
+            SaveResourceViewModel.Outcome.SUCCESS -> showLinkSaved()
+        }
+    }
+
     private fun showActionRejected() {
         Toast.makeText(this, getString(R.string.resource_unable_to_save), Toast.LENGTH_LONG)
                 .show()
     }
 
+    private fun showLinkSaved() {
+        Toast.makeText(this, getString(R.string.resource_saved), Toast.LENGTH_LONG)
+                .show()
+    }
+
     private fun saveLink(url: String) {
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenCreated {
             viewModel.url.emit(url)
         }
     }
