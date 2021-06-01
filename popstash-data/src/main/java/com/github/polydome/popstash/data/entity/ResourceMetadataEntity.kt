@@ -40,4 +40,5 @@ fun ResourceMetadataEntity.toModel(): ResourceMetadata =
                 summary = summary,
                 site = site,
                 author = author,
+                thumbnailUrl = null
         )
