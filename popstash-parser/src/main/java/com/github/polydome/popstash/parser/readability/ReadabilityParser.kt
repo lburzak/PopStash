@@ -28,7 +28,7 @@ class ReadabilityParser @Inject constructor(
                 title = article?.title ?: url,
                 summary = article?.excerpt ?: "",
                 site = domain ?: "",
-                author = article?.byline ?: ""
+                author = article?.byline ?: "",
         )
 
         return ParsedResource(metadata = metadata)

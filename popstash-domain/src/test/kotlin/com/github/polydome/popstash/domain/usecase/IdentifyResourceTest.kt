@@ -83,7 +83,7 @@ internal class IdentifyResourceTest {
                 title = "Final Destination",
                 summary = "This is article summary.",
                 site = "example.com",
-                author = "Mikhail Berlioz"
+                author = "Mikhail Berlioz",
         )
         private val PARSED_RESOURCE = ParsedResource(
                 metadata = PARSED_RESOURCE_METADATA

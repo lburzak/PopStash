@@ -83,7 +83,7 @@ class DatabaseMetadataCacheTest {
                 title = "Final Destination - Part 2",
                 summary = "This is article summary.",
                 site = "example.com",
-                author = "Mikhail Berlioz"
+                author = "Mikhail Berlioz",
         )
 
         private const val URL_CACHED = "http://example.com/mberlioz/final-destination"
@@ -92,14 +92,14 @@ class DatabaseMetadataCacheTest {
                 title = "Final Destination",
                 summary = "This is article summary.",
                 site = "example.com",
-                author = "Mikhail Berlioz"
+                author = "Mikhail Berlioz",
         )
 
         private val UPDATED_METADATA = ResourceMetadata(
                 title = "Final Destination (update)",
                 summary = "This is article summary.\nUPDATE: fake news :)",
                 site = "example.com",
-                author = "Mikhail Berlioz"
+                author = "Mikhail Berlioz",
         )
     }
 }

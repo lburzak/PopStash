@@ -39,5 +39,5 @@ fun ResourceMetadataEntity.toModel(): ResourceMetadata =
                 title = title,
                 summary = summary,
                 site = site,
-                author = author
+                author = author,
         )

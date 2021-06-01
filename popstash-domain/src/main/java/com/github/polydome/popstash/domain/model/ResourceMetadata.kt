@@ -5,4 +5,5 @@ data class ResourceMetadata(
         val summary: String,
         val site: String,
         val author: String?,
+        val thumbnailUrl: String?,
 )
