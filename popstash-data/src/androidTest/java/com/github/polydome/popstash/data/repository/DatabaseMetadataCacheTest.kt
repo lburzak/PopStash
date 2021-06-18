@@ -84,22 +84,17 @@ class DatabaseMetadataCacheTest {
                 summary = "This is article summary.",
                 site = "example.com",
                 author = "Mikhail Berlioz",
+                thumbnailUrl = "http://example.com/thumbnails/one.jpg"
         )
 
         private const val URL_CACHED = "http://example.com/mberlioz/final-destination"
         private val RESOURCE_CACHED = Resource (url = URL_CACHED)
-        private val METADATA_CACHED = ResourceMetadata(
-                title = "Final Destination",
-                summary = "This is article summary.",
-                site = "example.com",
-                author = "Mikhail Berlioz",
+        private val METADATA_CACHED = METADATA_NOT_CACHED.copy(
+                title = "Final Destination"
         )
 
-        private val UPDATED_METADATA = ResourceMetadata(
-                title = "Final Destination (update)",
-                summary = "This is article summary.\nUPDATE: fake news :)",
-                site = "example.com",
-                author = "Mikhail Berlioz",
+        private val UPDATED_METADATA = METADATA_NOT_CACHED.copy(
+                title = "Final Destination (update)"
         )
     }
 }

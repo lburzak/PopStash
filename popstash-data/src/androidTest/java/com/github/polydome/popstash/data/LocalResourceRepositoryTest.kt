@@ -22,6 +22,7 @@ internal class LocalResourceRepositoryTest {
                 summary = "This is article summary.",
                 site = "example.com",
                 author = "Mikhail Berlioz",
+                thumbnailUrl = "http://example.com/thumbnails/one.jpg"
         )
     }
 
