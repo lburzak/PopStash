@@ -27,7 +27,9 @@ class ResourceViewHolder(
 
             viewModel.thumbnailUrl.observe(lifecycleOwner) { thumbnailUrl ->
                 if (thumbnailUrl != null) {
-                    binding.thumbnail.load(thumbnailUrl)
+                    binding.thumbnail.load(thumbnailUrl) {
+                        allowHardware(false)
+                    }
                 } else {
                     binding.thumbnail.visibility = View.GONE
                 }

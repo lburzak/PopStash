@@ -28,20 +28,20 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="10dp"
-                android:paddingBottom="2dp"
-                android:paddingHorizontal="16dp">
+                android:layout_height="match_parent">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/title"
                     android:text="@{viewmodel.title}"
                     tools:text="10 great ideas to improve your Gradle build times but this title is exceptionally long so i can readily see how it behaves on screen"
                     style="@style/TextView.Title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/thumbnail"
+                    app:layout_constraintEnd_toStartOf="@id/thumbnail_container"
                     app:layout_constraintBottom_toTopOf="@id/site"
                     app:layout_constraintVertical_chainStyle="spread"/>
                 
@@ -52,7 +52,7 @@
                     android:src="@drawable/content_placeholder"
                     android:paddingVertical="1dp"
                     app:layout_constraintStart_toStartOf="@id/title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/title"
                     app:layout_constraintTop_toTopOf="@id/title"
                     app:layout_constraintBottom_toBottomOf="@id/title"
                     android:contentDescription="@null" />
@@ -62,31 +62,52 @@
                     android:text="@{viewmodel.site}"
                     style="@style/TextView.Detail.Small"
                     tools:text="medium.com"
-                    android:layout_width="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
 
                 <ImageView
                     android:visibility="@{viewmodel.loading ? View.VISIBLE : View.GONE}"
+                    android:src="@drawable/content_placeholder"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:src="@drawable/content_placeholder"
+                    android:paddingBottom="2dp"
                     android:paddingVertical="1dp"
                     app:layout_constraintStart_toStartOf="@id/site"
-                    app:layout_constraintEnd_toStartOf="@id/thumbnail"
+                    app:layout_constraintEnd_toEndOf="@id/site"
                     app:layout_constraintTop_toTopOf="@id/site"
                     app:layout_constraintBottom_toBottomOf="@id/site"
                     android:contentDescription="@null" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/thumbnail"
+                <io.github.florent37.shapeofview.shapes.DiagonalView
+                    android:id="@+id/thumbnail_container"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:elevation="4dp"
+                    app:shape_diagonal_angle="-22"
+                    app:shape_diagonal_position="left"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintWidth_percent="0.2"/>
+                    app:layout_constraintWidth_percent="0.25">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        app:srcCompat="@color/colorAccent"
+                        android:id="@+id/thumbnail"
+                        android:scaleType="centerCrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                    <ImageView
+                        android:visibility="@{viewmodel.loading ? View.VISIBLE : View.GONE}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="?android:textColorSecondary"
+                        android:contentDescription="@null"/>
+
+                </io.github.florent37.shapeofview.shapes.DiagonalView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
