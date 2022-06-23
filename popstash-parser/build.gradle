@@ -12,6 +12,7 @@ dependencies {
     implementation project(':popstash-domain')
 
     implementation 'net.dankito.readability4j:readability4j:1.0.3'
+    implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'javax.inject:javax.inject:1'
 
     testImplementation platform('org.junit:junit-bom:5.7.1')

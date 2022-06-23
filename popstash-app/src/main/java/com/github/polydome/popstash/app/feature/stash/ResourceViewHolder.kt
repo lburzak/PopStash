@@ -1,9 +1,11 @@
 package com.github.polydome.popstash.app.feature.stash
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.github.polydome.popstash.app.databinding.RowResourceBinding
 import com.github.polydome.popstash.app.feature.common.Swipeable
 import com.github.polydome.popstash.app.presentation.viewmodel.ResourceViewModel
@@ -21,6 +23,16 @@ class ResourceViewHolder(
                     binding.shimmer.showShimmer(false)
                 else
                     binding.shimmer.hideShimmer()
+            }
+
+            viewModel.thumbnailUrl.observe(lifecycleOwner) { thumbnailUrl ->
+                if (thumbnailUrl != null) {
+                    binding.thumbnail.load(thumbnailUrl) {
+                        allowHardware(false)
+                    }
+                } else {
+                    binding.thumbnail.visibility = View.GONE
+                }
             }
         }
     }

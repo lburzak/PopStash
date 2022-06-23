@@ -20,7 +20,8 @@ internal class ParserServiceTest {
                 title = "Final Destination",
                 summary = "This is article summary.",
                 site = "example.com",
-                author = "Mikhail Berlioz"
+                author = "Mikhail Berlioz",
+                thumbnailUrl = null
         )
         private val PARSED_RESOURCE = ParsedResource(
                 metadata = PARSED_RESOURCE_METADATA

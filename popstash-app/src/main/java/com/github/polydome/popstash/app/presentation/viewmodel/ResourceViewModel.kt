@@ -20,10 +20,12 @@ class ResourceViewModel @Inject constructor(
     private val _title = MutableLiveData<String>()
     private val _site = MutableLiveData<String>()
     private val _loading = MutableLiveData<Boolean>()
+    private val _thumbnailUrl = MutableLiveData<String?>()
 
     val title: LiveData<String> = _title
     val site: LiveData<String> = _site
     val loading: LiveData<Boolean> = _loading
+    val thumbnailUrl: LiveData<String?> = _thumbnailUrl
 
     private var resourceUrl: String? = null
 
@@ -35,17 +37,20 @@ class ResourceViewModel @Inject constructor(
 
             var title = ""
             var site = ""
+            var thumbnailUrl: String? = null
 
             if (identificationResult is IdentifyResource.Result.Success) {
                 resourceUrl = url
                 with(identificationResult.metadata) {
                     title = this.title
                     site = this.site
+                    thumbnailUrl = this.thumbnailUrl
                 }
             }
 
             _title.postValue(title)
             _site.postValue(site)
+            _thumbnailUrl.postValue(thumbnailUrl)
 
             _loading.postValue(false)
         }

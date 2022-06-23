@@ -22,7 +22,8 @@ data class ResourceMetadataEntity(
         val title: String,
         val summary: String,
         val site: String,
-        val author: String?
+        val author: String?,
+        val thumbnailUrl: String?
 )
 
 fun ResourceMetadata.toEntity(url: String): ResourceMetadataEntity =
@@ -31,7 +32,8 @@ fun ResourceMetadata.toEntity(url: String): ResourceMetadataEntity =
                 title = title,
                 summary = summary,
                 site = site,
-                author = author
+                author = author,
+                thumbnailUrl = thumbnailUrl
         )
 
 fun ResourceMetadataEntity.toModel(): ResourceMetadata =
@@ -39,5 +41,6 @@ fun ResourceMetadataEntity.toModel(): ResourceMetadata =
                 title = title,
                 summary = summary,
                 site = site,
-                author = author
+                author = author,
+                thumbnailUrl = thumbnailUrl
         )

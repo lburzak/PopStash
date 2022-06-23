@@ -7,7 +7,9 @@ import com.github.polydome.popstash.domain.repository.ResourceRepository
 import com.github.polydome.popstash.domain.service.MetadataCache
 import com.github.polydome.popstash.domain.service.ResourceParser
 import com.github.polydome.popstash.domain.service.URLValidator
+import com.github.polydome.popstash.parser.html.JsoupHtmlDocument
 import com.github.polydome.popstash.parser.readability.ReadabilityParser
+import com.github.polydome.popstash.parser.service.HtmlDocument
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -28,4 +30,7 @@ abstract class DomainModule {
 
     @Binds
     abstract fun urlValidator(androidPatternMatcher: AndroidPatternMatcher): URLValidator
+
+    @Binds
+    abstract fun htmlDocumentFactory(jsoupHtmlDocumentFactory: JsoupHtmlDocument.Factory): HtmlDocument.Factory
 }
